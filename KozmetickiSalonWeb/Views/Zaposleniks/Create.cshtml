@@ -1,0 +1,107 @@
+﻿@model KozmetickiClassLibrary.ViewModels.ZaposlenikAdresaVM
+
+@{
+    ViewBag.Title = "Novi";
+}
+
+<h2>Dodaj novog zaposlenika</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.zaposlenik.Ime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.zaposlenik.Ime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.zaposlenik.Ime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.zaposlenik.Prezime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.zaposlenik.Prezime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.zaposlenik.Prezime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.zaposlenik.Oib, "OIB", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.zaposlenik.Oib, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.zaposlenik.Oib, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.adresa.Nazivadrese, "Adresa", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.adresa.Nazivadrese, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.adresa.Nazivadrese, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.adresa.Grad.IdGrad, "Grad", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.adresa.Grad.IdGrad, (SelectList)ViewBag.idGrad, new { @class = "form-control" })
+                @*@Html.ValidationMessageFor(model => model.adresa.idGrad, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.zaposlenik.Smjena.IdSmjena, "Smjena", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.zaposlenik.Smjena.IdSmjena, (SelectList)ViewBag.idSmjena, new { @class = "form-control" })
+                @*@Html.ValidationMessageFor(model => model.zaposlenik.idSmjena, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            <h4>Odaberi usluge:</h4>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+
+                    @for (var i = 0; i < Model.usluge.Count / 2; i++)
+                    {
+                        <div class="row">
+                            @Html.CheckBoxFor(m => m.usluge[i].Odabrana)
+
+                            @Html.HiddenFor(m => m.usluge[i].Naziv)
+                            @Html.HiddenFor(m => m.usluge[i].Idusluga)
+                            <span>@Model.usluge[i].Naziv</span>
+                        </div>
+
+                    }
+                </div>
+                <div class="col-md-6">
+                    @for (var i = Model.usluge.Count / 2; i < Model.usluge.Count; i++)
+                    {
+
+                        <div class="row">
+                            @Html.CheckBoxFor(m => m.usluge[i].Odabrana)
+
+                            @Html.HiddenFor(m => m.usluge[i].Naziv)
+                            @Html.HiddenFor(m => m.usluge[i].Idusluga)
+                            <span>@Model.usluge[i].Naziv</span>
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Dodaj" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Natrag na popis", "Index")
+</div>

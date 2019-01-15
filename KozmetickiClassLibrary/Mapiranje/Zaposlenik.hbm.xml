@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="KozmetickiClassLibrary" namespace="KozmetickiClassLibrary.Model" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Zaposlenik" table="zaposlenik" lazy="true" >
+    <id name="IdZaposlenik" column="idZaposlenik" >
+      <generator class="increment"/>
+    </id>
+    <many-to-one name="Adresa">
+      <column name="idAdresa" sql-type="int(11)" not-null="true" />
+    </many-to-one>
+    <many-to-one name="Salon">
+      <column name="idSalon" sql-type="int(11)" not-null="true" />
+    </many-to-one>
+    <many-to-one name="Smjena">
+      <column name="idSmjena" sql-type="int(11)" not-null="true" />
+    </many-to-one>
+    <property name="Ime">
+      <column name="ime" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="Prezime">
+      <column name="prezime" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="Oib">
+      <column name="oib" sql-type="varchar(11)" not-null="true" />
+    </property>
+    <bag name="Narudzba">
+      <key column="IdZaposlenik" />
+      <one-to-many class="Narudzba" />
+    </bag>
+    <bag name="Zaposlenikusluga"  cascade="all">
+      <key column="IdZaposlenik"  />
+      <one-to-many class="Zaposlenikusluga"   />
+    </bag>
+  </class>
+</hibernate-mapping>

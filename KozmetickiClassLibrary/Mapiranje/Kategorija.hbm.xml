@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="KozmetickiClassLibrary" namespace="KozmetickiClassLibrary.Model" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Kategorija" table="kategorija" lazy="true" >
+    <id name="IdKategorija" column="idKategorija" >
+      <generator class="increment"/>
+    </id>
+    <property name="NazivKategorija">
+      <column name="nazivKategorija" sql-type="varchar(100)" not-null="true" />
+    </property>
+    <bag name="Artikl">
+      <key column="IdKategorija" />
+      <one-to-many class="Artikl" />
+    </bag>
+    <bag name="Usluga">
+      <key column="IdKategorija" />
+      <one-to-many class="Usluga" />
+    </bag>
+  </class>
+</hibernate-mapping>

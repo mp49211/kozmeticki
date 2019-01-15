@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="KozmetickiClassLibrary" namespace="KozmetickiClassLibrary.Model" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Zaposlenikusluga" table="zaposlenikusluga" lazy="true" >
+    <id name="IdZaposlenikUsluga" column="idZaposlenikUsluga" >
+      <generator class="increment"/>
+    </id>
+    <many-to-one name="Zaposlenik">
+      <column name="idZaposlenik" sql-type="int(11)" not-null="true" />
+    </many-to-one>
+    <many-to-one name="Usluga">
+      <column name="idUsluga" sql-type="int(11)" not-null="true" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,85 @@
+﻿@model KozmetickiClassLibrary.ViewModels.ZaposlenikAdresaVM
+
+@{
+    ViewBag.Title = "Azuriraj";
+}
+
+<h2>Ažuriraj usluge</h2>
+
+@using (Html.BeginForm("Create", "Uslugas", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.zaposlenik.idZaposlenik)
+       
+
+
+        <table class="table">
+                <tr>
+                    <th>
+                        Naziv
+                    </th>
+                    <th>
+                        Cijena
+                    </th>
+                    <th>
+                        Trajanje
+                    </th>
+                    <th>
+                        Opis
+                    </th>
+                    <th>
+                        Kategorija
+                    </th>
+                    <th>Odabir</th>
+                </tr>
+
+                @for (int i = 0; i < Model.usluge.Count; i++)
+                {
+                    @Html.HiddenFor(m => Model.usluge[i].Idusluga)
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => Model.usluge[i].Naziv)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => Model.usluge[i].Cijena)
+                            @Html.Raw("kn")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => Model.usluge[i].Trajanje)
+                            @Html.Raw(" minuta")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => Model.usluge[i].Opis)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => Model.usluge[i].Kategorija.Naziv)
+                        </td>
+                        <td>
+                            @Html.HiddenFor(m => Model.usluge[i].Idusluga)
+                            <div class="form-group">
+                                @Html.CheckBoxFor(m => Model.usluge[i].Odabrana, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(m => Model.usluge[i].Naziv)
+                                @Html.HiddenFor(m => Model.usluge[i].Idusluga)
+                                <span>@Model.usluge[i].Naziv</span>
+                                @*@Html.EditorFor(model => model.usluge[i].Odabrana, new { htmlAttributes = new { @class = "form-control" } })*@
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+
+        <div class="form-group">
+            <input type="submit" value="Gotovo" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Natrag", "Index")
+</div>

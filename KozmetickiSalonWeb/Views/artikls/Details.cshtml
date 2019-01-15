@@ -1,0 +1,104 @@
+﻿@model KozmetickiClassLibrary.ViewModels.ArtiklVM
+
+@{
+    ViewBag.Title = "Detalji";
+}
+
+<h2>Detalji: @Html.DisplayFor(model => model.Naziv)</h2>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Artikl</h4>
+            <dl class="dl-horizontal">
+                <dt>
+                    Naziv
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Naziv)
+                </dd>
+
+                <dt>
+                    Cijena
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Cijena)
+                </dd>
+
+
+                <dt>
+                    Kategorija
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Kategorija.Naziv)
+                </dd>
+
+                <dt>
+                    Proizvođač
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Proizvodac.Naziv)
+                </dd>
+                <dt>
+                    Količina
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Kolicina)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <h4>Dobavljač</h4>
+            <dl class="dl-horizontal">
+                <dt>
+                    Naziv
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Dobavljac.Naziv)
+                </dd>
+
+                <dt>
+                    OIB
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Dobavljac.Oib)
+                </dd>
+
+
+                <dt>
+                    Kontakt
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Dobavljac.Kontakt)
+                </dd>
+
+                <dt>
+                    Adresa
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Dobavljac.Adresa.Naziv)
+                    @Html.Raw(", ")
+                    @Html.DisplayFor(model => model.Dobavljac.Adresa.Grad.Pbr)
+                    @Html.Raw(" ")
+                    @Html.DisplayFor(model => model.Dobavljac.Adresa.Grad.Naziv)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+    
+</div>
+<p>
+    @Html.ActionLink("Natrag na popis", "Index")
+</p>

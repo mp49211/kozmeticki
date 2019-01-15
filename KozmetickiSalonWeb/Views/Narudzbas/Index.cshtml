@@ -1,0 +1,92 @@
+﻿@model KozmetickiClassLibrary.ViewModels.NarudzbeVM
+
+@{
+    ViewBag.Title = "Narudzbe";
+}
+
+<h2>Narudžbe</h2>
+
+<p>
+    @Html.ActionLink("Nova narudžba", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "Narudzbas", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-inline">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.EditorFor(modelItem => modelItem.datum, new { htmlAttributes = new { @class = "form-control datepicker" } })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Promijeni datum" class="btn btn-default" />
+        </div>
+
+    </div>
+
+}
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            Usluga
+        </th>
+        <th>
+           Klijent
+        </th>
+        <th>
+            Zaposlenik
+        </th>
+        <th>
+            Vrijeme
+        </th>
+        <th>
+            Trajanje
+        </th>
+        <th>
+            Kontakt
+        </th>
+        <th>
+            Cijena
+        </th>
+    </tr>
+
+    @foreach (var item in Model.narudzbe)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usluga.Naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Klijent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zaposlenik.ImePrezime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vrijeme.TimeOfDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usluga.Trajanje)
+                @Html.Raw(" min")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kontakt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usluga.Cijena)
+                @Html.Raw(" kn")
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+       $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+</script>

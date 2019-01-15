@@ -1,0 +1,55 @@
+﻿@model IEnumerable<KozmetickiClassLibrary.ViewModels.ZaposlenikVM>
+
+@{
+    ViewBag.Title = "Zaposlenici";
+}
+
+<h2>Zaposlenici</h2>
+
+<p>
+    @Html.ActionLink("Dodaj zaposlenika", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Ime i Prezime
+        </th>
+
+
+        <th>
+            Smjena
+        </th>
+        <th>
+            Usluge
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImePrezime)
+            </td>
+
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Smjena.Naziv)
+            </td>
+            <td>
+                @foreach (var u in item.Usluge)
+                {
+                    @Html.DisplayFor(usluga => u.Naziv)
+                    @Html.Raw(" | ")
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Uredi", "Edit", new { id = item.IdZaposlenik }) |
+                @Html.ActionLink("Detalji", "Details", new { id = item.IdZaposlenik }) |
+                @Html.ActionLink("Obriši", "Delete", new { id = item.IdZaposlenik })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,103 @@
+﻿@model List<KozmetickiClassLibrary.ViewModels.NabavaArtiklVM>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalji</h2>
+
+<div>
+    <h4>NABAVA</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+
+
+
+
+        <dt>
+            Dobavljač
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[0].Artikl.Dobavljac.Naziv
+       )
+        </dd>
+        <dt>
+            Datum
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[0].Nabava.Datum.Day).@Html.DisplayFor(model => model[0].Nabava.Datum.Month).@Html.DisplayFor(model => model[0].Nabava.Datum.Year).
+        </dd>
+        <dt>
+            Ukupna Cijena
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[0].Nabava.UkupnaCijena)
+        </dd>
+    </dl>
+    <hr />
+    <hr />
+    <h4>Artikli</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>
+                Naziv
+            </th>
+
+            <th>
+                Kategorija
+            </th>
+            <th>
+                Proizvođač
+            </th>
+            <th>
+                Cijena/kn
+            </th>
+            <th>
+                Količina/kom
+            </th>
+            <th>
+                Ukupno
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            var sum = item.Kolicina * item.Artikl.Cijena;
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Artikl.Naziv)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Artikl.Kategorija.Naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Artikl.Proizvodac.Naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Artikl.Cijena)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kolicina)
+            </td>
+            <td>
+                @sum
+            </td>
+        </tr>
+        }
+
+    </table>
+
+
+</div>
+
+<p>
+   @* @Html.ActionLink("Uredi", "Edit", new { id = Model[0].IdNabva }) |*@
+    @Html.ActionLink("Natrag", "Index")
+</p>

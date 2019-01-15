@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="KozmetickiClassLibrary" namespace="KozmetickiClassLibrary.Model" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Usluga" table="usluga" lazy="true" >
+    <id name="Idusluga" column="idusluga" >
+      <generator class="increment"/>
+    </id>
+    <many-to-one name="Kategorija">
+      <column name="idKategorija" sql-type="int(11)" not-null="true" />
+    </many-to-one>
+    <property name="Naziv">
+      <column name="naziv" sql-type="varchar(100)" not-null="true" />
+    </property>
+    <property name="Cijena">
+      <column name="cijena" sql-type="decimal(10,2)" not-null="true" />
+    </property>
+    <property name="Trajanje">
+      <column name="trajanje" sql-type="int(11)" not-null="true" />
+    </property>
+    <property name="Opis">
+      <column name="opis" sql-type="varchar(200)" not-null="true" />
+    </property>
+    <bag name="Narudzba">
+      <key column="Idusluga" />
+      <one-to-many class="Narudzba" />
+    </bag>
+    <bag name="Salonusluga">
+      <key column="Idusluga" />
+      <one-to-many class="Salonusluga" />
+    </bag>
+    <bag name="Zaposlenikusluga">
+      <key column="Idusluga" />
+      <one-to-many class="Zaposlenikusluga" />
+    </bag>
+  </class>
+</hibernate-mapping>

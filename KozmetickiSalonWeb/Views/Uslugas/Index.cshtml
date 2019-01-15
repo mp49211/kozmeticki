@@ -1,0 +1,62 @@
+﻿@model IEnumerable<KozmetickiClassLibrary.ViewModels.UslugaVM>
+
+@{
+    ViewBag.Title = "Usluge";
+}
+
+<h2>Usluge</h2>
+
+<p>
+    @Html.ActionLink("Ažuriraj usluge", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Naziv
+        </th>
+        <th>
+            Cijena
+        </th>
+        <th>
+           Trajanje
+        </th>
+        <th>
+            Opis
+        </th>
+        <th>
+            Kategorija
+        </th>
+        <th>Pružaju uslugu</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Naziv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cijena)
+            @Html.Raw("kn")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Trajanje)
+            @Html.Raw(" minuta")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Opis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kategorija.Naziv)
+        </td>
+        <td>
+            @foreach (var u in item.Zaposlenici)
+            {
+                @Html.DisplayFor(usluga => u.ImePrezime)
+                @Html.Raw(" | ")
+            }
+        </td>
+
+    </tr>
+}
+
+</table>

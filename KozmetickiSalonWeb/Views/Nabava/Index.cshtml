@@ -1,0 +1,47 @@
+﻿@model IEnumerable<KozmetickiClassLibrary.Model.Nabava>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Popis Nabava</h2>
+
+<p>
+    @Html.ActionLink("Nova Nabava", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Datum
+        </th>
+        <th>
+            Ukupna Cijena
+        </th>
+    
+        <th>
+            Dobavljač
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Datum.Day). @Html.DisplayFor(modelItem => item.Datum.Month). @Html.DisplayFor(modelItem => item.Datum.Year).
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UkupnaCijena)
+        </td>
+      
+        <td>
+            @Html.DisplayFor(modelItem => item.Dobavljac.NazivDobavljaca)
+        </td>
+        <td>
+          @* @Html.ActionLink("Uredi", "Edit", new { id=item.idnabava }) |*@
+            @Html.ActionLink("Detalji", "Details", new { id=item.Idnabava }) |
+            @Html.ActionLink("Obriši", "Delete", new { id=item.Idnabava })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,85 @@
+﻿@model KozmetickiClassLibrary.ViewModels.ArtikliVM
+
+@{
+    ViewBag.Title = "Artikli";
+}
+
+<h2>Artikli</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <p>
+        <div class="row">
+            <div class="col-md-8">
+                @Html.ActionLink("Dodaj artikle", "Create")
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Pohrani količine" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Naziv
+            </th>
+            <th>
+                Cijena
+            </th>
+            <th>
+                Kategorija
+            </th>
+            <th>
+                Dobavljač
+            </th>
+
+            <th>
+                Proizvođač
+            </th>
+            <th>
+                Količina
+            </th>
+            <th></th>
+        </tr>
+
+        @for (int i = 0; i < Model.Arts.Count; i++)
+        {
+            @Html.HiddenFor(modelItem => modelItem.Arts[i].IdArtikl)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Arts[i].Naziv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Arts[i].Cijena)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Arts[i].Kategorija.NazivKategorija)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Arts[i].Dobavljac.NazivDobavljaca)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Arts[i].Proizvodac.Nazivproizvodaca)
+                </td>
+                <td>
+
+                    @Html.EditorFor(modelItem => modelItem.Kols[i], new { htmlAttributes = new { @class = "form-control" } })
+
+
+                </td>
+                <td>
+                    @Html.ActionLink("Detalji", "Details", new { id = Model.Arts[i].IdArtikl }) |
+                    @Html.ActionLink("Obriši", "Delete", new { id = Model.Arts[i].IdArtikl })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

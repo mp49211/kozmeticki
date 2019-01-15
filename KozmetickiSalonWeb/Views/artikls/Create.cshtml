@@ -1,0 +1,75 @@
+﻿@model KozmetickiClassLibrary.ViewModels.ArtikliVM
+
+@{
+    ViewBag.Title = "Dodavanje";
+}
+
+<h2>Dodaj artikle</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table">
+        <tr>
+            <th>
+                Naziv
+            </th>
+            <th>
+                Cijena
+            </th>
+            <th>
+                Kategorija
+            </th>
+            <th>
+                Dobavljač
+            </th>
+
+            <th>
+                Proizvođač
+            </th>
+            <th>
+                Količina
+            </th>
+        </tr>
+
+        @for (int i=0; i < Model.Arts.Count; i++)
+        {
+            @Html.HiddenFor(model => model.Arts[i].IdArtikl)
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Arts[i].Naziv)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Arts[i].Cijena)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Arts[i].Kategorija.NazivKategorija)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Arts[i].Dobavljac.NazivDobavljaca)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Arts[i].Proizvodac.Nazivproizvodaca)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(model => model.Dict[model.Arts[i].idArtikl])*@
+                    @Html.EditorFor(model => model.Kols[i], new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.ValidationMessageFor(model => model.Kols[i], "", new { @class = "text-danger" })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+
+    <div class="form-group">
+            <input type="submit" value="Gotovo" class="btn btn-default" />
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Natrag na popis", "Index")
+</div>

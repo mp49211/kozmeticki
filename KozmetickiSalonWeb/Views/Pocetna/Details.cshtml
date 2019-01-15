@@ -1,0 +1,66 @@
+﻿@model KozmetickiClassLibrary.Model.Narudzba
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>narudzba</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Klijent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Klijent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kontakt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kontakt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vrijeme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vrijeme)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Salon.Naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Salon.Naziv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Zaposlenik.Ime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Zaposlenik.Ime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usluga.Naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usluga.Naziv)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdNarudzba }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

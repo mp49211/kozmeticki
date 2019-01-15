@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="KozmetickiClassLibrary" namespace="KozmetickiClassLibrary.Model" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Proizvodac" table="proizvodac" lazy="true" >
+    <id name="IdProizvodac" column="idProizvodac" >
+      <generator class="increment"/>
+    </id>
+    <property name="Nazivproizvodaca">
+      <column name="nazivproizvodaca" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <bag name="Artikl">
+      <key column="IdProizvodac" />
+      <one-to-many class="Artikl" />
+    </bag>
+  </class>
+</hibernate-mapping>
