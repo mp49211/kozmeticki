@@ -17,7 +17,7 @@ namespace KozmetickiSalonWeb.Controllers
         public ActionResult Index()
         {
 
-            var nabava = session.Query<Nabava>().Where(n => n.Salon.IdSalon == AktivniSalon.IdAktivniSalon);
+            var nabava = session.Query<Nabava>().OrderByDescending(n => n.Datum).Where(n => n.Salon.IdSalon == AktivniSalon.IdAktivniSalon);
             return View(nabava.ToList());
         }
 
@@ -122,22 +122,28 @@ namespace KozmetickiSalonWeb.Controllers
                 foreach (var d in dob)
                 {
                     var map = new Dictionary<int, int>();
-                    var novaNabava = new Nabava();
-                    novaNabava.Salon= session.Get<Salon>(AktivniSalon.IdAktivniSalon); 
+                    var novaNabava = new Nabava
+                    {
+                        Salon = session.Get<Salon>(AktivniSalon.IdAktivniSalon)
+                    };
                     decimal sum = 0;
                     int id = 0;
+                    System.Diagnostics.Debug.WriteLine("Arts.Count: ", artikli.Arts.Count);
                     for (int i = 0; i < artikli.Arts.Count; ++i)
                     {
 
 
                         if (artikli.Arts[i].Dobavljac.Iddobavljac == d)
                         {
+                            System.Diagnostics.Debug.WriteLine("id dobavljac: ", d);
+                            System.Diagnostics.Debug.WriteLine("artikli.Kols[i]: ", artikli.Kols[i]);
                             if (artikli.Kols[i] != 0)
                             {
                                 
                                 novaNabava.Dobavljac = artikli.Arts[i].Dobavljac;
                                 map.Add(artikli.Arts[i].IdArtikl, artikli.Kols[i]);
                                 sum += artikli.Arts[i].Cijena * artikli.Kols[i];
+                                id++;
                             }
                         }
 
@@ -159,8 +165,10 @@ namespace KozmetickiSalonWeb.Controllers
                             int key = pair.Key;
                             int value = pair.Value;
 
-                            var artnab = new Nabavaartikl();
-                            artnab.Nabava = idnab;
+                            var artnab = new Nabavaartikl
+                            {
+                                Nabava = idnab
+                            };
                             Artikl artikl = session.Get<Artikl>(key);
                             artnab.Artikl = artikl;
                             artnab.Kolicina = value;

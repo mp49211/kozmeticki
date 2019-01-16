@@ -26,7 +26,7 @@
       <key column="IdZaposlenik" />
       <one-to-many class="Narudzba" />
     </bag>
-    <bag name="Zaposlenikusluga"  cascade="all">
+    <bag name="Zaposlenikusluga">
       <key column="IdZaposlenik"  />
       <one-to-many class="Zaposlenikusluga"   />
     </bag>

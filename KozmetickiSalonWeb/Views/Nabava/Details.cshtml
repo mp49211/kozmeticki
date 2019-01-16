@@ -31,11 +31,12 @@
             @Html.DisplayFor(model => model[0].Nabava.Datum.Day).@Html.DisplayFor(model => model[0].Nabava.Datum.Month).@Html.DisplayFor(model => model[0].Nabava.Datum.Year).
         </dd>
         <dt>
-            Ukupna Cijena
+            Ukupna cijena
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model[0].Nabava.UkupnaCijena)
+            @Html.Raw(" kn")
         </dd>
     </dl>
     <hr />
@@ -61,7 +62,7 @@
                 Količina/kom
             </th>
             <th>
-                Ukupno
+                Ukupno/kn
             </th>
         </tr>
 
