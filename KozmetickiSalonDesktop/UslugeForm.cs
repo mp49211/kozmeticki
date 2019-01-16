@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using KozmetickiClassLibrary;
 using KozmetickiClassLibrary.ViewModels;
 using KozmetickiClassLibrary.Model;
-using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
 
 namespace Desktop

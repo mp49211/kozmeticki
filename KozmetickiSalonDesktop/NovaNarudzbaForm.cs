@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using KozmetickiClassLibrary;
-using KozmetickiClassLibrary.ViewModels;
 using KozmetickiClassLibrary.Model;
 using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
@@ -86,10 +85,11 @@ namespace Desktop
 
         private void novaDate_ValueChanged(object sender, EventArgs e)
         {
-            date = novaDate.Value.Date.ToShortDateString();
+            date = novaDate.Value.Date.ToShortDateString();            
         }
         private void novaVrijeme_ValueChanged(object sender, EventArgs e)
         {
+            time = novaVrijeme.Value.TimeOfDay;
         }
         private void button1_Click(object sender, EventArgs e)
         {

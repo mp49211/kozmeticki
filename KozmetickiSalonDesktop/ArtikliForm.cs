@@ -22,38 +22,47 @@ namespace Desktop
         public ArtikliForm()
         {
             InitializeComponent();
+            dataGridView1.Columns.Add("br", "#");
+
+            dataGridView1.Columns.Add("naziv", "Naziv Artikla");
+            dataGridView1.Columns.Add("cijena", "Cijena");
+            dataGridView1.Columns.Add("kolicina", "Kolicina");
+
+            dataGridView1.Columns.Add("kat", "Kategorija");
+            dataGridView1.Columns.Add("proizvodac", "Proizvodac");
+            dataGridView1.Columns.Add("dobavljac", "Dobavljac");
+            dataGridView1.Columns.Add("id", "id");
+            dataGridView1.Columns.Add("iddob", "iddob");
+
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView1.Columns["naziv"].ReadOnly = true;
+            dataGridView1.Columns["kolicina"].ReadOnly = false;
+            dataGridView1.Columns["cijena"].ReadOnly = true;
+            dataGridView1.Columns["kat"].ReadOnly = true;
+            dataGridView1.Columns["proizvodac"].ReadOnly = true;
+            dataGridView1.Columns["dobavljac"].ReadOnly = true;
+            dataGridView1.Columns["id"].Visible = false;
+            dataGridView1.Columns["iddob"].Visible = false;
+
+            DataGridViewButtonColumn button = new DataGridViewButtonColumn();
+
+            button.Name = "button";
+            button.HeaderText = "Detalji Dobavljaca";
+            button.Text = "Detalji";
+            button.UseColumnTextForButtonValue = true; //dont forget this line
+            this.dataGridView1.Columns.Add(button);
+
+            dataGridView1.CellContentClick += myDataGridView_CellContentClick;
+
             FillData();
         }
         void FillData()
         {
-
-          
+                dataGridView1.Rows.Clear();
                 var artiklisalona = session.Query<Artiklsalon>().Where(a => a.Salon.IdSalon == PocetnaForm.ID).ToList();
 
                 int i = 1;
-                dataGridView1.Columns.Add("br", "#");
-
-                dataGridView1.Columns.Add("naziv", "Naziv Artikla");
-                dataGridView1.Columns.Add("cijena", "Cijena");
-                dataGridView1.Columns.Add("kolicina", "Kolicina");
-
-                dataGridView1.Columns.Add("kat", "Kategorija");
-                dataGridView1.Columns.Add("proizvodac", "Proizvodac");
-                dataGridView1.Columns.Add("dobavljac", "Dobavljac");
-                dataGridView1.Columns.Add("id", "id");
-                dataGridView1.Columns.Add("iddob", "iddob");
-
-                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                dataGridView1.Columns["naziv"].ReadOnly = true;
-                dataGridView1.Columns["kolicina"].ReadOnly = false;
-                dataGridView1.Columns["cijena"].ReadOnly = true;
-                dataGridView1.Columns["kat"].ReadOnly = true;
-                dataGridView1.Columns["proizvodac"].ReadOnly = true;
-                dataGridView1.Columns["dobavljac"].ReadOnly = true;
-                dataGridView1.Columns["id"].Visible = false;
-                dataGridView1.Columns["iddob"].Visible = false;
-
-
+               
                 foreach (var zapo in artiklisalona)
                 {
                     DataGridViewRow row = new DataGridViewRow();
@@ -74,15 +83,7 @@ namespace Desktop
                     i++;
                 }
 
-                DataGridViewButtonColumn button = new DataGridViewButtonColumn();
-
-                button.Name = "button";
-                button.HeaderText = "Detalji Dobavljaca";
-                button.Text = "Detalji";
-                button.UseColumnTextForButtonValue = true; //dont forget this line
-                this.dataGridView1.Columns.Add(button);
-
-                dataGridView1.CellContentClick += myDataGridView_CellContentClick;
+              
             
 
 
@@ -125,24 +126,26 @@ namespace Desktop
                 }
                 }
                 MessageBox.Show("Promjenjena Kolicina");
+            FillData();
             
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            NabaveForm nf = new NabaveForm();
-            nf.Show();
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
             NoviArtiklForm da = new NoviArtiklForm();
             da.Show();
+            if (da.Visible == false)
+            {
+                FillData();
+            }
         }
 
         private void ArtikliForm_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
         }
+
+        
     }
 }
