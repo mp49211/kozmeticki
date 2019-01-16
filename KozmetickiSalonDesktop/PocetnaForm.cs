@@ -1,5 +1,4 @@
 ﻿using KozmetickiClassLibrary;
-using KozmetickiClassLibrary.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +18,7 @@ namespace Desktop
     public partial class PocetnaForm : Form
     {
         public static int ID = 1;
-        public static List<NarudzbaVM> svenarudzbe;
+        public static List<Narudzba> svenarudzbe;
         ISession session = NHibertnateSession.OpenSession();
         public PocetnaForm()
         {
@@ -27,8 +26,9 @@ namespace Desktop
             var salonname = session.Query<Salon>().Where(a => a.IdSalon == PocetnaForm.ID).SingleOrDefault();
             label1.Text = salonname.Naziv;
             label5.Text = salonname.Oib;
-            
-            svenarudzbe = session.Query<Narudzba>().Where(a => a.Salon.IdSalon== PocetnaForm.ID).Select(x => new NarudzbaVM()
+
+            svenarudzbe = session.Query<Narudzba>().Where(a => a.Salon.IdSalon == PocetnaForm.ID).ToList();
+               /*Select(x => new NarudzbaVM()
             {
                 IdNarudzba = x.IdNarudzba,
                 IdUsluga = x.Usluga.Idusluga,
@@ -37,7 +37,7 @@ namespace Desktop
                 Klijent = x.Klijent,
                 Kontakt = x.Kontakt,
                 Vrijeme = x.Vrijeme,
-            }).ToList();
+            }).ToList();*/
 
             FillData();
         }
@@ -51,8 +51,8 @@ namespace Desktop
                 {
                     Console.Write(zapo.Vrijeme.ToShortDateString());
                     DataGridViewRow row = new DataGridViewRow();
-                    var mojausl = session.Query<Usluga>().Where(u => u.Idusluga == zapo.IdUsluga).SingleOrDefault();
-                    var mojzap = session.Query<Zaposlenik>().Where(u => u.IdZaposlenik == zapo.IdZaposlenik).SingleOrDefault();
+                    var mojausl = session.Query<Usluga>().Where(u => u.Idusluga == zapo.Usluga.Idusluga).SingleOrDefault();
+                    var mojzap = session.Query<Zaposlenik>().Where(u => u.IdZaposlenik == zapo.Zaposlenik.IdZaposlenik).SingleOrDefault();
                     row.CreateCells(dataGridView1);
                     row.Cells[0].Value = i.ToString();
                     row.Cells[1].Value = zapo.Vrijeme.ToShortTimeString();

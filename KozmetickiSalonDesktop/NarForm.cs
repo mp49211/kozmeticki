@@ -128,15 +128,15 @@ namespace Desktop
                     row.Cells[0].Value = nar.IdNarudzba;
                     row.Cells[1].Value = nar.Klijent;
                     row.Cells[2].Value = nar.Kontakt;
-                    var name = session.Query<Zaposlenik>().Where(x => x.IdZaposlenik == nar.IdZaposlenik).Select(a => a.Ime).ToList();
+                    var name = session.Query<Zaposlenik>().Where(x => x.IdZaposlenik == nar.Zaposlenik.IdZaposlenik).Select(a => a.Ime).ToList();
                     row.Cells[3].Value = name[0].ToString();
-                    var nazivUsluge = session.Query<Usluga>().Where(x => x.Idusluga == nar.IdUsluga).Select(a => a.Naziv).ToList();
+                    var nazivUsluge = session.Query<Usluga>().Where(x => x.Idusluga == nar.Usluga.Idusluga).Select(a => a.Naziv).ToList();
                     row.Cells[4].Value = nazivUsluge[0];
                     row.Cells[5].Value = nar.Vrijeme;
-                    var trajanje = session.Query<Usluga>().Where(x => x.Idusluga == nar.IdUsluga).Select(a => a.Trajanje).ToList();
+                    var trajanje = session.Query<Usluga>().Where(x => x.Idusluga == nar.Usluga.Idusluga).Select(a => a.Trajanje).ToList();
                     DateTime end = nar.Vrijeme.AddMinutes(trajanje[0]);
                     row.Cells[6].Value = end.TimeOfDay.ToString();
-                    row.Cells[7].Value = session.Query<Usluga>().Where(x => x.Idusluga == nar.IdUsluga).Select(a => a.Cijena).ToList()[0];
+                    row.Cells[7].Value = session.Query<Usluga>().Where(x => x.Idusluga == nar.Usluga.Idusluga).Select(a => a.Cijena).ToList()[0];
                     nPopis.Rows.Add(row);
                 }
             }
@@ -184,7 +184,7 @@ namespace Desktop
                     transaction.Commit();   //  Commit the changes to the database
                 }
             MessageBox.Show("Narudzba uspjesno obrisana " + itemToDelete.IdNarudzba.ToString());
-                NarudzbaVM ukloni = PocetnaForm.svenarudzbe.Where(n => n.IdNarudzba == itemToDelete.IdNarudzba).ToList()[0];
+                Narudzba ukloni = PocetnaForm.svenarudzbe.Where(n => n.IdNarudzba == itemToDelete.IdNarudzba).ToList()[0];
                 PocetnaForm.svenarudzbe.Remove(ukloni);
             
         }
