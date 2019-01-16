@@ -28,26 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.nPopis = new System.Windows.Forms.DataGridView();
-            this.nNovaButton = new System.Windows.Forms.Button();
-            this.nUsluge = new System.Windows.Forms.ComboBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.nZaposlenikBox = new System.Windows.Forms.ComboBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.IdNarudzbe = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Klijent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Kontakt = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,7 +47,14 @@
             this.Vrijeme = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VrijemeZavrsetka = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cijena = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Obrisi = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.nNovaButton = new System.Windows.Forms.Button();
+            this.nUsluge = new System.Windows.Forms.ComboBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.nZaposlenikBox = new System.Windows.Forms.ComboBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.nPopis)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -83,13 +81,12 @@
             // nPopis
             // 
             this.nPopis.AllowUserToAddRows = false;
-            this.nPopis.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.nPopis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Black;
+            this.nPopis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
             this.nPopis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -98,14 +95,14 @@
             this.nPopis.BackgroundColor = System.Drawing.SystemColors.ControlDarkDark;
             this.nPopis.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.nPopis.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Sunken;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.nPopis.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.nPopis.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.nPopis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.nPopis.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IdNarudzbe,
@@ -115,41 +112,112 @@
             this.Usluga,
             this.Vrijeme,
             this.VrijemeZavrsetka,
-            this.Cijena,
-            this.Obrisi});
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.nPopis.DefaultCellStyle = dataGridViewCellStyle7;
+            this.Cijena});
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.nPopis.DefaultCellStyle = dataGridViewCellStyle22;
             this.nPopis.EnableHeadersVisualStyles = false;
             this.nPopis.Location = new System.Drawing.Point(0, 130);
             this.nPopis.Name = "nPopis";
             this.nPopis.ReadOnly = true;
             this.nPopis.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.nPopis.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.nPopis.RowHeadersDefaultCellStyle = dataGridViewCellStyle23;
             this.nPopis.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            this.nPopis.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle24.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.Black;
+            this.nPopis.RowsDefaultCellStyle = dataGridViewCellStyle24;
             this.nPopis.RowTemplate.Height = 24;
             this.nPopis.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.nPopis.Size = new System.Drawing.Size(1330, 408);
             this.nPopis.TabIndex = 2;
-            this.nPopis.CellContentClick += nPopis_CellContentClick;
+            this.nPopis.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.nPopis_UserDeletingRow);
+            // 
+            // IdNarudzbe
+            // 
+            this.IdNarudzbe.DataPropertyName = "IdNarudzbe";
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.IdNarudzbe.DefaultCellStyle = dataGridViewCellStyle19;
+            this.IdNarudzbe.HeaderText = "ID";
+            this.IdNarudzbe.Name = "IdNarudzbe";
+            this.IdNarudzbe.ReadOnly = true;
+            // 
+            // Klijent
+            // 
+            this.Klijent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Klijent.DataPropertyName = "Klijent";
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Klijent.DefaultCellStyle = dataGridViewCellStyle20;
+            this.Klijent.HeaderText = "Klijent";
+            this.Klijent.Name = "Klijent";
+            this.Klijent.ReadOnly = true;
+            // 
+            // Kontakt
+            // 
+            this.Kontakt.DataPropertyName = "Kontakt";
+            dataGridViewCellStyle21.BackColor = System.Drawing.Color.LightSalmon;
+            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Kontakt.DefaultCellStyle = dataGridViewCellStyle21;
+            this.Kontakt.HeaderText = "Kontakt";
+            this.Kontakt.Name = "Kontakt";
+            this.Kontakt.ReadOnly = true;
+            // 
+            // Zaposlenik
+            // 
+            this.Zaposlenik.DataPropertyName = "Zaposlenik";
+            this.Zaposlenik.HeaderText = "Zaposlenik";
+            this.Zaposlenik.Name = "Zaposlenik";
+            this.Zaposlenik.ReadOnly = true;
+            // 
+            // Usluga
+            // 
+            this.Usluga.DataPropertyName = "Usluga";
+            this.Usluga.HeaderText = "Usluga";
+            this.Usluga.Name = "Usluga";
+            this.Usluga.ReadOnly = true;
+            // 
+            // Vrijeme
+            // 
+            this.Vrijeme.DataPropertyName = "Vrijeme";
+            this.Vrijeme.HeaderText = "Vrijeme";
+            this.Vrijeme.Name = "Vrijeme";
+            this.Vrijeme.ReadOnly = true;
+            // 
+            // VrijemeZavrsetka
+            // 
+            this.VrijemeZavrsetka.DataPropertyName = "VrijemeZavrsetka";
+            this.VrijemeZavrsetka.HeaderText = "Vrijeme Zavrsetka";
+            this.VrijemeZavrsetka.Name = "VrijemeZavrsetka";
+            this.VrijemeZavrsetka.ReadOnly = true;
+            // 
+            // Cijena
+            // 
+            this.Cijena.DataPropertyName = "Cijena";
+            this.Cijena.HeaderText = "Cijena (KN)";
+            this.Cijena.Name = "Cijena";
+            this.Cijena.ReadOnly = true;
             // 
             // nNovaButton
             // 
@@ -244,88 +312,6 @@
             this.panel1.Size = new System.Drawing.Size(382, 130);
             this.panel1.TabIndex = 12;
             // 
-            // IdNarudzbe
-            // 
-            this.IdNarudzbe.DataPropertyName = "IdNarudzbe";
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.IdNarudzbe.DefaultCellStyle = dataGridViewCellStyle3;
-            this.IdNarudzbe.HeaderText = "ID";
-            this.IdNarudzbe.Name = "IdNarudzbe";
-            this.IdNarudzbe.ReadOnly = true;
-            // 
-            // Klijent
-            // 
-            this.Klijent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Klijent.DataPropertyName = "Klijent";
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Klijent.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Klijent.HeaderText = "Klijent";
-            this.Klijent.Name = "Klijent";
-            this.Klijent.ReadOnly = true;
-            // 
-            // Kontakt
-            // 
-            this.Kontakt.DataPropertyName = "Kontakt";
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightSalmon;
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Kontakt.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Kontakt.HeaderText = "Kontakt";
-            this.Kontakt.Name = "Kontakt";
-            this.Kontakt.ReadOnly = true;
-            // 
-            // Zaposlenik
-            // 
-            this.Zaposlenik.DataPropertyName = "Zaposlenik";
-            this.Zaposlenik.HeaderText = "Zaposlenik";
-            this.Zaposlenik.Name = "Zaposlenik";
-            this.Zaposlenik.ReadOnly = true;
-            // 
-            // Usluga
-            // 
-            this.Usluga.DataPropertyName = "Usluga";
-            this.Usluga.HeaderText = "Usluga";
-            this.Usluga.Name = "Usluga";
-            this.Usluga.ReadOnly = true;
-            // 
-            // Vrijeme
-            // 
-            this.Vrijeme.DataPropertyName = "Vrijeme";
-            this.Vrijeme.HeaderText = "Vrijeme";
-            this.Vrijeme.Name = "Vrijeme";
-            this.Vrijeme.ReadOnly = true;
-            // 
-            // VrijemeZavrsetka
-            // 
-            this.VrijemeZavrsetka.DataPropertyName = "VrijemeZavrsetka";
-            this.VrijemeZavrsetka.HeaderText = "Vrijeme Zavrsetka";
-            this.VrijemeZavrsetka.Name = "VrijemeZavrsetka";
-            this.VrijemeZavrsetka.ReadOnly = true;
-            // 
-            // Cijena
-            // 
-            this.Cijena.DataPropertyName = "Cijena";
-            this.Cijena.HeaderText = "Cijena (KN)";
-            this.Cijena.Name = "Cijena";
-            this.Cijena.ReadOnly = true;
-            // 
-            // Obrisi
-            // 
-            this.Obrisi.DataPropertyName = "Obrisi";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.LightSalmon;
-            this.Obrisi.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Obrisi.HeaderText = "Obrisi";
-            this.Obrisi.Name = "Obrisi";
-            this.Obrisi.ReadOnly = true;
-            // 
             // NarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -369,6 +355,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Vrijeme;
         private System.Windows.Forms.DataGridViewTextBoxColumn VrijemeZavrsetka;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cijena;
-        private System.Windows.Forms.DataGridViewButtonColumn Obrisi;
     }
 }

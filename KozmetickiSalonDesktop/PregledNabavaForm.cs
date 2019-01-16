@@ -26,10 +26,22 @@ namespace Desktop
         }
         void FillData()
         {
+            dataGridView1.Columns.Add("br", "#");
+            dataGridView1.Columns.Add("datum", "Datum");
+            dataGridView1.Columns.Add("nazdobavljac", "Dobavljac");
+            dataGridView1.Columns.Add("ukcijena", "Ukupna cijena");
+            dataGridView1.Columns.Add("idnab", "Id Nabava");
 
-           
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView1.Columns["br"].ReadOnly = true;
+            dataGridView1.Columns["datum"].ReadOnly = true;
+            dataGridView1.Columns["nazdobavljac"].ReadOnly = false;
+            dataGridView1.Columns["ukcijena"].ReadOnly = true;
+            dataGridView1.Columns["idnab"].Visible = false;
 
-                var nabave = session.Query<Nabava>().Where(a => a.Salon.IdSalon == PocetnaForm.ID).Select(n => new NabavaVM()
+
+
+            var nabave = session.Query<Nabava>().Where(a => a.Salon.IdSalon == PocetnaForm.ID).Select(n => new NabavaVM()
                 {
 
                     Idnabava = n.Idnabava,
@@ -50,22 +62,8 @@ namespace Desktop
 
 
                 int i = 1;
-                dataGridView1.Columns.Add("br", "#");
-                dataGridView1.Columns.Add("Datum", "Datum");
-                dataGridView1.Columns.Add("dob", "Dobavljac");
-                dataGridView1.Columns.Add("cijena", "Cijena");
-                dataGridView1.Columns.Add("idnab", "idnab");
-
-
-                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                dataGridView1.Columns["br"].ReadOnly = true;
-                dataGridView1.Columns["Datum"].ReadOnly = true;
-                dataGridView1.Columns["dob"].ReadOnly = true;
-                dataGridView1.Columns["cijena"].ReadOnly = true;
-
-
-                dataGridView1.Columns["idnab"].Visible = false;
-
+                
+                
                 foreach (var zapo in nabave)
                 {
                     DataGridViewRow row = new DataGridViewRow();
@@ -74,7 +72,6 @@ namespace Desktop
                     row.Cells[1].Value = zapo.Datum.ToShortDateString();
                     row.Cells[2].Value = zapo.Dobavljac.Naziv;
                     row.Cells[3].Value = zapo.UkupnaCijena;
-
                     row.Cells[4].Value = zapo.Idnabava;
                     dataGridView1.Rows.Add(row);
                     i++;
@@ -103,7 +100,7 @@ namespace Desktop
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
 
-                DetaljiNabaveForm ddform = new DetaljiNabaveForm(Convert.ToInt32(senderGrid.Rows[e.RowIndex].Cells["idnab"].Value), senderGrid.Rows[e.RowIndex].Cells["Datum"].Value.ToString(), senderGrid.Rows[e.RowIndex].Cells["cijena"].Value.ToString(), senderGrid.Rows[e.RowIndex].Cells["dob"].Value.ToString());
+                DetaljiNabaveForm ddform = new DetaljiNabaveForm(Convert.ToInt32(senderGrid.Rows[e.RowIndex].Cells["idnab"].Value), senderGrid.Rows[e.RowIndex].Cells["datum"].Value.ToString(), senderGrid.Rows[e.RowIndex].Cells["ukcijena"].Value.ToString(), senderGrid.Rows[e.RowIndex].Cells["nazdobavljac"].Value.ToString());
                 ddform.Show();
             }
         }

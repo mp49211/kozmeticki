@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using KozmetickiClassLibrary;
 using KozmetickiClassLibrary.Model;
-using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
 using KozmetickiClassLibrary.ViewModels;
 
@@ -171,6 +170,12 @@ namespace Desktop
 
             }
             MessageBox.Show("Dodan Artikl");
+        }
+
+        private void NoviArtiklForm_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
         }
     }
 }

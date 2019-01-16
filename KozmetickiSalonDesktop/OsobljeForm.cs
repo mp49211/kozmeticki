@@ -35,7 +35,7 @@ namespace Desktop
 
         private void OsobljeForm_Load(object sender, EventArgs e)
         {
-           // this.WindowState = FormWindowState.Maximized;
+           this.WindowState = FormWindowState.Maximized;
            
                 var zaposlenici = session.Query<Zaposlenik>().Where(a => a.Salon.IdSalon == PocetnaForm.ID).Select(x => new ZaposlenikVM()
                 {
