@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace KozmetickiClassLibrary.Model {
-    
-    public class Zaposlenik {
+
+    public class Zaposlenik
+    {
         public Zaposlenik()
         {
-           
+
             this.Narudzba = new HashSet<Narudzba>();
         }
 
@@ -86,6 +87,18 @@ namespace KozmetickiClassLibrary.Model {
             {
                 return true;
             }
+        }
+        public static decimal getZaposlenikProfitByMonth(ICollection<Narudzba> nar, int mjesec, int godina)
+        {
+            decimal profit = 0;
+            foreach (var n in nar)
+            {
+                if (n.Vrijeme.Month == mjesec && n.Vrijeme.Year == godina)
+                {
+                    profit += n.Usluga.Cijena;
+                }
+            }
+            return profit;
         }
     }
 }
