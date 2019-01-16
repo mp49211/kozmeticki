@@ -44,7 +44,6 @@ namespace KozmetickiSalonWeb.Controllers
                 
                 foreach (Zaposlenikusluga z in zaposlenici)
                 {
-                    if (z.Zaposlenik.IdZaposlenik == 0) continue;
                     if (z.Usluga.Idusluga == u.Idusluga && z.Zaposlenik.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
                     {
                         u.Zaposlenici.Add(new ZaposlenikVM()
