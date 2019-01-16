@@ -111,7 +111,9 @@ namespace Desktop
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Boolean z = provjeriZauzetost();
+            var narudzbeZaposlenikaZaDan = PocetnaForm.svenarudzbe.Where(x => x.Zaposlenik.IdZaposlenik == idz).ToList();
+            narudzbeZaposlenikaZaDan = narudzbeZaposlenikaZaDan.Where(x => x.Vrijeme.Date.ToShortDateString().Equals(date)).ToList();
+            Boolean z = Zaposlenik.provjeriZauzetost(narudzbeZaposlenikaZaDan, time, trajanje);
             if (z)
             {
                 MessageBox.Show("Odabrani zaposlenik je ZAUZET u odabranom terminu!");
@@ -127,7 +129,9 @@ namespace Desktop
         {
             if (idz != 0 && ids != 0 && !klijent.Equals(""))
             {
-                Boolean occ = provjeriZauzetost();
+                var narudzbeZaposlenikaZaDan = PocetnaForm.svenarudzbe.Where(x => x.Zaposlenik.IdZaposlenik == idz).ToList();
+                narudzbeZaposlenikaZaDan = narudzbeZaposlenikaZaDan.Where(x => x.Vrijeme.Date.ToShortDateString().Equals(date)).ToList();
+                Boolean occ = Zaposlenik.provjeriZauzetost(narudzbeZaposlenikaZaDan, time, trajanje);
                 if (occ)
                 {
                     if (MessageBox.Show("Unjeti novu narudzbu iako je zaposlenik zauzet?", "EF CRUD Operation", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -172,70 +176,7 @@ namespace Desktop
             klijent = textBox1.Text;
         }
 
-        private bool DoesOverlap(TimeSpan start1, TimeSpan end1, TimeSpan start2, TimeSpan end2)
-        {
-
-            if (start1 > start2)
-            {
-                if (start1 >= end2)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else if (start1 < start2)
-            {
-                if (end1 <= start2)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-
-            }
-            else
-            {
-                return true;
-            }
-        }
-        
-
-        private Boolean provjeriZauzetost()
-        {
-            zauzet = false;
-            try
-            {
-                TimeSpan zavrsetakMojeUsluge = time + TimeSpan.FromMinutes(trajanje);
-                var narudzbeZaposlenikaZaDan = PocetnaForm.svenarudzbe.Where(x => x.IdZaposlenik == idz).ToList();
-                narudzbeZaposlenikaZaDan = narudzbeZaposlenikaZaDan.Where(x => x.Vrijeme.Date.ToShortDateString().Equals(date)).ToList();
-                foreach (var nar in narudzbeZaposlenikaZaDan)
-                {
-
-                    TimeSpan vrijemePocetka = nar.Vrijeme.TimeOfDay;
-                    int duration = session.Query<Usluga>().Where(x => x.Idusluga == nar.IdUsluga).Select(a => a.Trajanje).ToList()[0];
-                    TimeSpan vrijemeZavrsetka = vrijemePocetka + TimeSpan.FromMinutes(duration);
-                    // MessageBox.Show(time + " " + zavrsetakMojeUsluge + " " + vrijemePocetka.ToString() + " " + vrijemeZavrsetka.ToString());
-
-                    if (DoesOverlap(time, zavrsetakMojeUsluge, vrijemePocetka, vrijemeZavrsetka))
-                    {
-                        zauzet = true;
-                        break;
-
-                    }
-                }
-
-            }
-            catch (FormatException exc)
-            {
-
-            }
-            return zauzet;
-        }
+      
         private void unesiNovu()
         {
                 Narudzba nar = new Narudzba();
@@ -266,15 +207,7 @@ namespace Desktop
                         textBox1.Text = "";
                         textBox2.Text = "";
 
-                        NarudzbaVM nova = new NarudzbaVM();
-                        nova.IdNarudzba = id;
-                        nova.IdZaposlenik = nar.Zaposlenik.IdZaposlenik;
-                        nova.IdSalon = PocetnaForm.ID;
-                        nova.Kontakt = nar.Kontakt;
-                        nova.Klijent = nar.Klijent;
-                        nova.IdUsluga = nar.Usluga.Idusluga;
-                        nova.Vrijeme = nar.Vrijeme;
-                        PocetnaForm.svenarudzbe.Add(nova);
+                        PocetnaForm.svenarudzbe.Add(nar);
 
                     }
                     catch (Exception ex)

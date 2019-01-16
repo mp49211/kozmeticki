@@ -12,7 +12,9 @@ namespace KozmetickiClassLibrary.ViewModels
         }
 
         public int IdNarudzba { get; set; }
+        [Required(ErrorMessage = "Potrebno je unijeti ime klijenta.")]
         public string Klijent { get; set; }
+        [Required(ErrorMessage = "Potrebno je unijeti kontakt.")]
         public string Kontakt { get; set; }
         public int IdZaposlenik { get; set; }
         public int IdSalon { get; set; }
