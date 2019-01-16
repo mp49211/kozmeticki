@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using KozmetickiClassLibrary;
 using KozmetickiClassLibrary.ViewModels;
 using KozmetickiClassLibrary.Model;
+using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
 
 namespace Desktop
@@ -36,6 +37,7 @@ namespace Desktop
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+          
             int ID = PocetnaForm.ID;
             novaZaposlenik.Enabled = false;
             date = novaDate.Value.ToShortDateString();
@@ -45,7 +47,6 @@ namespace Desktop
             {
                 Idusluga = x.Usluga.Idusluga,
                 Naziv = x.Usluga.Naziv,
-                
             }).ToList();
             novaUsluge.DataSource = sveuslugesalona;
             novaUsluge.ValueMember = "Idusluga";
@@ -64,7 +65,7 @@ namespace Desktop
                     IdZaposlenik = x.Zaposlenik.IdZaposlenik,
                     Ime = x.Zaposlenik.Ime,
                     IdSmjena = x.Zaposlenik.Smjena.IdSmjena,
-                    IdSalon = x.Zaposlenik.IdZaposlenik,
+                    IdSalon = x.Zaposlenik.Salon.IdSalon,
                 }).ToList();
                 zaposleniciUsluge = zaposleniciUsluge.Where(a => a.IdSalon == PocetnaForm.ID).ToList();
                 novaZaposlenik.DataSource = zaposleniciUsluge;
@@ -89,7 +90,6 @@ namespace Desktop
         }
         private void novaVrijeme_ValueChanged(object sender, EventArgs e)
         {
-            time = novaVrijeme.Value.TimeOfDay;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -130,7 +130,7 @@ namespace Desktop
                 Boolean occ = provjeriZauzetost();
                 if (occ)
                 {
-                    if (MessageBox.Show("Unijeti novu narudzbu iako je zaposlenik zauzet?", "EF CRUD Operation", MessageBoxButtons.YesNo) == DialogResult.No)
+                    if (MessageBox.Show("Unjeti novu narudzbu iako je zaposlenik zauzet?", "EF CRUD Operation", MessageBoxButtons.YesNo) == DialogResult.No)
                     {
                         MessageBox.Show("Poništeno");
                     }
@@ -238,14 +238,13 @@ namespace Desktop
         }
         private void unesiNovu()
         {
-           
                 Narudzba nar = new Narudzba();
                 nar.Zaposlenik= session.Get<Zaposlenik>(idz);
                 nar.Klijent = klijent;
                 nar.Kontakt = kontakt;
-                nar.Salon = session.Get<Salon>(PocetnaForma.ID);
+                nar.Salon = session.Get<Salon>(PocetnaForm.ID);
                 nar.Usluga = session.Get<Usluga>(ids);
-                 String dt = date + " " + time.ToString();
+                String dt = date + " " + time.ToString();
                 nar.Vrijeme = DateTime.Parse(dt);
                 DateTime end = nar.Vrijeme.AddMinutes(trajanje);
                 if (end.TimeOfDay > novaVrijeme.MaxDate.TimeOfDay)
@@ -255,31 +254,37 @@ namespace Desktop
                 else
                 {
 
+                    try
+                    {
                     using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
                     {
                         session.Save(nar); //  Save the book in session
                         transaction.Commit();   //  Commit the changes to the database
                     }
-                int id = nar.IdNarudzba;
-                MessageBox.Show("Nova narudzba dodana, id:"+id.ToString());
-                textBox1.Text = "";
-                textBox2.Text = "";
+                    int id = nar.IdNarudzba;
+                        MessageBox.Show("Nova narudzba dodana, id:"+id.ToString());
+                        textBox1.Text = "";
+                        textBox2.Text = "";
 
-                NarudzbaVM nova = new NarudzbaVM();
-                nova.IdNarudzba = id;
-                ZaposlenikVM zap = new ZaposlenikVM();
-         
-                nova.IdZaposlenik= nar.Zaposlenik.IdZaposlenik;
-                nova.IdSalon = nar.Salon.IdSalon;
-                nova.Kontakt = nar.Kontakt;
-                nova.Klijent = nar.Klijent;
-                nova.IdUsluga = nar.Usluga.Idusluga;
-                nova.Vrijeme = nar.Vrijeme;
-                PocetnaForm.svenarudzbe.Add(nova);
+                        NarudzbaVM nova = new NarudzbaVM();
+                        nova.IdNarudzba = id;
+                        nova.IdZaposlenik = nar.Zaposlenik.IdZaposlenik;
+                        nova.IdSalon = PocetnaForm.ID;
+                        nova.Kontakt = nar.Kontakt;
+                        nova.Klijent = nar.Klijent;
+                        nova.IdUsluga = nar.Usluga.Idusluga;
+                        nova.Vrijeme = nar.Vrijeme;
+                        PocetnaForm.svenarudzbe.Add(nova);
 
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message.ToString());
+                    }
+                }
 
             }
-        }
+        
 
 
 

@@ -9,11 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using KozmetickiClassLibrary.Model;
+using KozmetickiClassLibrary.ViewModels;
+using NHibernate;
 
 namespace Desktop
 {
     public partial class DetaljiNabaveForm : Form
     {
+        ISession session = NHibertnateSession.OpenSession();
         public DetaljiNabaveForm(int id, string datum, string cijena, string dob)
         {
             InitializeComponent();
@@ -25,48 +29,45 @@ namespace Desktop
         void FillData(int id)
         {
 
-            using (kozmetickisalonEntities conn = new kozmetickisalonEntities())
-            {
-
-                var artikli = conn.nabavaartikl.Where(na => na.idNabava == id).Select(na => new NabavaArtiklVM()
+                var artikli = session.Query<Nabavaartikl>().Where(na => na.Nabava.Idnabava == id).Select(na => new NabavaArtiklVM()
                 {
 
-                    IdANabavaArtikl = na.idNabavaArtikl,
-                    IdArtikl = na.idArtikl,
-                    IdNabva = na.idNabava,
-                    Kolicina = na.kolicina,
-                    Artikl = conn.artikl.Select(a => new ArtiklVM()
+                    IdANabavaArtikl = na.IdNabavaArtikl,
+                    IdArtikl = na.Artikl.IdArtikl,
+                    IdNabva = na.Nabava.Idnabava,
+                    Kolicina = na.Kolicina,
+                    Artikl = new ArtiklVM()
                     {
-                        Cijena = a.cijena,
-                        IdArtikl = a.idArtikl,
-                        IdKategorija = a.idKategorija,
-                        IdDobavljac = a.idDobavljac,
-                        IdProizvodac = a.idDobavljac,
-                        Naziv = a.naziv,
-                        Proizvodac = conn.proizvodac.Select(p => new ProizvodacVM()
+                        Cijena = na.Artikl.Cijena,
+                        IdArtikl = na.Artikl.IdArtikl,
+                        IdKategorija = na.Artikl.Kategorija.IdKategorija,
+                        IdDobavljac = na.Artikl.Dobavljac.Iddobavljac,
+                        IdProizvodac = na.Artikl.Proizvodac.IdProizvodac,
+                        Naziv = na.Artikl.Naziv,
+                        Proizvodac =  new ProizvodacVM()
                         {
-                            IdProizvodac = p.idProizvodac,
-                            Naziv = p.nazivproizvodaca
+                            IdProizvodac = na.Artikl.Proizvodac.IdProizvodac,
+                            Naziv =na.Artikl.Proizvodac.Nazivproizvodaca
 
-                        }).FirstOrDefault(p => p.IdProizvodac == a.idProizvodac),
+                        },
 
-                        Dobavljac = conn.dobavljac.Select(d => new DobavljacVM()
+                        Dobavljac =  new DobavljacVM()
                         {
-                            Iddobavljac = d.iddobavljac,
-                            Naziv = d.nazivDobavljaca
-                        }).FirstOrDefault(d => d.Iddobavljac == a.idDobavljac),
+                            Iddobavljac = na.Artikl.Dobavljac.Iddobavljac,
+                            Naziv = na.Artikl.Dobavljac.NazivDobavljaca
+                        },
 
-                        Kategorija = conn.kategorija.Select(k => new KategorijaVM()
+                        Kategorija = new KategorijaVM()
                         {
 
-                            IdKategorija = k.idKategorija,
-                            Naziv = k.nazivKategorija
+                            IdKategorija = na.Artikl.Kategorija.IdKategorija,
+                            Naziv = na.Artikl.Kategorija.NazivKategorija
 
-                        }).FirstOrDefault(k => k.IdKategorija == a.idKategorija)
+                        }
 
 
-
-                    }).FirstOrDefault(a => a.IdArtikl == na.idArtikl)
+                 
+                    }
 
 
                 }).ToList();
@@ -74,8 +75,24 @@ namespace Desktop
 
 
                 int i = 1;
-               
+                dataGridView1.Columns.Add("br", "#");
+                dataGridView1.Columns.Add("naz", "Naziv");
+                dataGridView1.Columns.Add("proizvodac", "Proizvodac");
+                dataGridView1.Columns.Add("Dostavljac", "Dobavljac");
+                dataGridView1.Columns.Add("kat", "Kategorija");
+                dataGridView1.Columns.Add("cijena", "Cijena/kom");
+                dataGridView1.Columns.Add("kol", "Kolicina");
+                dataGridView1.Columns.Add("Suma", "Ukupna Cijena");
+
+
                 dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                dataGridView1.Columns["naz"].ReadOnly = true;
+                dataGridView1.Columns["proizvodac"].ReadOnly = true;
+                dataGridView1.Columns["Dostavljac"].ReadOnly = true;
+                dataGridView1.Columns["cijena"].ReadOnly = true;
+                dataGridView1.Columns["kol"].ReadOnly = true;
+                dataGridView1.Columns["suma"].ReadOnly = true;
+                dataGridView1.Columns["kat"].ReadOnly = true;
 
                 foreach (var zapo in artikli)
                 {
@@ -94,7 +111,7 @@ namespace Desktop
                     dataGridView1.Rows.Add(row);
                     i++;
                 }
-            }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using KozmetickiClassLibrary.ViewModels;
 using KozmetickiClassLibrary;
 using KozmetickiClassLibrary.Model;
+using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
 
 
@@ -23,6 +24,7 @@ namespace Desktop
         public NarForm()
         {
             InitializeComponent();
+         
             int ID = PocetnaForm.ID;
             
             dateNarudzba = System.DateTime.Today.ToString("d");
@@ -135,10 +137,7 @@ namespace Desktop
                     DateTime end = nar.Vrijeme.AddMinutes(trajanje[0]);
                     row.Cells[6].Value = end.TimeOfDay.ToString();
                     row.Cells[7].Value = session.Query<Usluga>().Where(x => x.Idusluga == nar.IdUsluga).Select(a => a.Cijena).ToList()[0];
-                    row.Cells[8].Value = "Obrisi";
                     nPopis.Rows.Add(row);
-
-
                 }
             }
             
@@ -150,34 +149,45 @@ namespace Desktop
             dateNarudzba= System.DateTime.Today.ToString("d");
             ispuni(PocetnaForm.ID);
         }
-        private void nPopis_CellContentClick(object sender, DataGridViewCellEventArgs e)
+
+        private void nPopis_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            var senderGrid = (DataGridView)sender;
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
-            {
+            DataGridViewRow startingBalanceRow = nPopis.Rows[0];
+
+            
                 if (MessageBox.Show("Obrisi odabranu narudzbu?", "EF CRUD Operation", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    //DeleteSelectedItem(e.RowIndex);
+                    int n = 0;
+                    foreach(var r in nPopis.SelectedRows)
+                    { 
+                        DeleteSelectedItem(n);
+                        n++;
+                    }
+
                 }
-            }
+                else
+                {
+                    e.Cancel = true;
+                }
             
         }
 
-       /* private void DeleteSelectedItem(int i)
+        private void DeleteSelectedItem(int i)
         {
             Narudzba itemToDelete = new Narudzba();
-            int idToDelete=(int)nPopis.Rows[i].Cells[0].Value;
+            int idToDelete=(int)nPopis.SelectedRows[i].Cells[0].Value;
 
-            using (kozmetickisalonEntities connection = new kozmetickisalonEntities())
-            {
-                itemToDelete=connection.narudzba.Find(idToDelete);
-                connection.narudzba.Remove(itemToDelete);
-                connection.SaveChanges();
-                MessageBox.Show("Narudzba uspjesno obrisana " + itemToDelete.idNarudzba.ToString());
-                NarudzbaVM ukloni = PocetnaForm.svenarudzbe.Where(n => n.IdNarudzba == itemToDelete.idNarudzba).ToList()[0];
+                itemToDelete=session.Get<Narudzba>(idToDelete);
+                using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+                {
+                    session.Delete(itemToDelete); //  Save the book in session
+                    transaction.Commit();   //  Commit the changes to the database
+                }
+            MessageBox.Show("Narudzba uspjesno obrisana " + itemToDelete.IdNarudzba.ToString());
+                NarudzbaVM ukloni = PocetnaForm.svenarudzbe.Where(n => n.IdNarudzba == itemToDelete.IdNarudzba).ToList()[0];
                 PocetnaForm.svenarudzbe.Remove(ukloni);
-            }
-        }*/
+            
+        }
 
         private void NarForm_Load(object sender, EventArgs e)
         {

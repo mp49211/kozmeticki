@@ -9,99 +9,101 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using KozmetickiClassLibrary;
 using KozmetickiClassLibrary.ViewModels;
+using KozmetickiClassLibrary.Model;
+using KozmetickiClassLibrary.ViewModels;
+using NHibernate;
 
 namespace Desktop
 {
     public partial class UrediZaposlenikForm : Form
     {
         int id;
+        ISession session = NHibertnateSession.OpenSession();
         public UrediZaposlenikForm(int id)
         {
             InitializeComponent();
             this.id = id;
-            using (kozmetickisalonEntities conn = new kozmetickisalonEntities())
-            {
+           
 
-                var z = conn.zaposlenik.Where(a => a.idZaposlenik == id).Select(x => new ZaposlenikVM()
+                var z = session.Query<Zaposlenik>().Where(a => a.IdZaposlenik == id).Select(x => new ZaposlenikVM()
                 {
 
-                    IdZaposlenik = x.idZaposlenik,
-                    IdSalon = x.idSalon,
-                    Ime = x.ime,
-                    Prezime = x.prezime,
-                    Oib = x.oib,
-                    ImePrezime = x.ime + " " + x.prezime,
-                    Smjena = conn.smjena.Select(a => new SmjenaVM()
+                    IdZaposlenik = x.IdZaposlenik,
+                    IdSalon = x.Salon.IdSalon,
+                    Ime = x.Ime,
+                    Prezime = x.Prezime,
+                    Oib = x.Oib,
+                    ImePrezime = x.Ime + " " + x.Prezime,
+                    Smjena = new SmjenaVM()
                     {
-                        IdSmjena = a.idSmjena,
-                        Naziv = a.smjena1,
+                        IdSmjena = x.Smjena.IdSmjena,
+                        Naziv = x.Smjena.SmjenaVal,
 
-                    }).Where(a => a.IdSmjena == x.idSmjena).FirstOrDefault(),
-                    Adresa = conn.adresa.Select(ad => new AdresaVM()
+                    },
+                    Adresa =  new AdresaVM()
                     {
-                        IdAdresa = ad.idAdresa,
-                        Naziv = ad.nazivadrese,
-                        IdGrad = ad.idGrad,
-                        Grad = conn.grad.Select(g => new GradVM()
+                        IdAdresa = x.Adresa.IdAdresa,
+                        Naziv = x.Adresa.Nazivadrese,
+                        IdGrad = x.Adresa.Grad.IdGrad,
+                        Grad = new GradVM()
                         {
-                            IdGrad = g.idGrad,
-                            Naziv = g.nazivGrada,
-                            Pbr = g.pbr
+                            IdGrad = x.Adresa.Grad.IdGrad,
+                            Naziv = x.Adresa.Grad.NazivGrada
 
-                        }).FirstOrDefault(g => g.IdGrad == ad.idGrad)
+                        }
 
-                    }).Where(a => a.IdAdresa == x.idAdresa).FirstOrDefault(),
+                    }
 
 
                 }).SingleOrDefault();
 
-                var listaZapUsluga = conn.zaposlenikusluga.ToList();
+                var listaZapUsluga = session.Query<Zaposlenikusluga>().ToList();
 
                 foreach (var x in listaZapUsluga)
                 {
 
-                    if (x.idZaposlenik == z.IdZaposlenik)
+                    if (x.Zaposlenik.IdZaposlenik == z.IdZaposlenik)
                     {
                         z.Usluge.Add(new UslugaVM()
                         {
-                            Idusluga = x.idUsluga,
-                            Naziv = x.usluga.naziv,
-                            Opis = x.usluga.opis,
-                            Cijena = x.usluga.cijena,
-                            IdKategorija = x.usluga.idKategorija,
-                            Trajanje = x.usluga.trajanje,
-                            Kategorija = conn.kategorija.Select(k => new KategorijaVM()
+                            Idusluga = x.Usluga.Idusluga,
+                            Naziv = x.Usluga.Naziv,
+                            Opis = x.Usluga.Opis,
+                            Cijena = x.Usluga.Cijena,
+                            IdKategorija = x.Usluga.Kategorija.IdKategorija,
+                            Trajanje = x.Usluga.Trajanje,
+                            Kategorija =  new KategorijaVM()
                             {
-                                IdKategorija = k.idKategorija,
-                                Naziv = k.nazivKategorija
-                            }).FirstOrDefault(k => k.IdKategorija == x.usluga.idKategorija)
+                                IdKategorija = x.Usluga.Kategorija.IdKategorija,
+                                Naziv = x.Usluga.Kategorija.NazivKategorija
+                            }
 
                         });
                     }
 
                 }
 
-                var mojgrad = conn.grad.Where(g => g.idGrad == z.Adresa.Grad.IdGrad).SingleOrDefault();
-                var mojasmjena = conn.smjena.Where(s => s.idSmjena == z.Smjena.IdSmjena).SingleOrDefault();
+                var mojgrad = session.Query<Grad>().Where(g => g.IdGrad == z.Adresa.Grad.IdGrad).SingleOrDefault();
+                var mojasmjena = session.Query<Smjena>().Where(s => s.IdSmjena == z.Smjena.IdSmjena).SingleOrDefault();
                 label1.Text = "UREDI: " + z.ImePrezime;
                 textBox2.Text = z.Ime;
                 textBox3.Text = z.Prezime;
                 textBox4.Text = z.Oib;
                 textBox5.Text = z.Adresa.Naziv;
 
-                comboBox2.DataSource = conn.grad.ToList();
+                comboBox2.DataSource = session.Query<Grad>().ToList();
                 comboBox2.ValueMember = "idGrad";
                 comboBox2.DisplayMember = "nazivGrada";
                 comboBox2.SelectedIndex = comboBox2.Items.IndexOf(mojgrad);
-                comboBox1.DataSource = conn.smjena.ToList();
+                comboBox1.DataSource = session.Query<Smjena>().ToList();
                 comboBox1.ValueMember = "idSmjena";
-                comboBox1.DisplayMember = "smjena1";
+                comboBox1.DisplayMember = "smjenaVal";
                 comboBox1.SelectedIndex = comboBox1.Items.IndexOf(mojasmjena);
 
                 checkedListBox1.DisplayMember = "naziv";
                 checkedListBox1.ValueMember = "idusluga";
-                var uslugelista = conn.usluga.ToList();
-                var mojeusluge = conn.zaposlenikusluga.Where(u => u.idZaposlenik == z.IdZaposlenik).Select(u => u.usluga).ToList();
+                var uslugelista = session.Query<Usluga>().ToList();
+                var mojeusluge = session.Query<Zaposlenikusluga>().Where(u => u.Zaposlenik.IdZaposlenik == z.IdZaposlenik).Select(u => u.Usluga).ToList();
                 foreach (var u in uslugelista)
                 {
 
@@ -120,79 +122,92 @@ namespace Desktop
                 }
 
 
-            }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (kozmetickisalonEntities conn = new kozmetickisalonEntities())
-            {
-                var z = conn.zaposlenik.Where(a => a.idZaposlenik == id).SingleOrDefault();
-                if (textBox2.Text != z.ime)
+            
+                var z = session.Query<Zaposlenik>().Where(a => a.IdZaposlenik == id).SingleOrDefault();
+                if (textBox2.Text != z.Ime)
                 {
-                    z.ime = textBox2.Text;
+                    z.Ime = textBox2.Text;
                 }
-                if (textBox3.Text != z.prezime)
-                {
-
-                    z.prezime = textBox3.Text;
-                }
-                if (textBox4.Text != z.oib)
+                if (textBox3.Text != z.Prezime)
                 {
 
-                    z.oib = textBox4.Text;
+                    z.Prezime = textBox3.Text;
                 }
-                if (textBox4.Text != z.adresa.nazivadrese)
+                if (textBox4.Text != z.Oib)
                 {
 
-                    z.adresa.nazivadrese = textBox5.Text;
+                    z.Oib = textBox4.Text;
                 }
-
-                if (Convert.ToInt32(comboBox1.SelectedValue.ToString()) != z.idSmjena)
+                if (textBox4.Text != z.Adresa.Nazivadrese)
                 {
 
-                    z.idSmjena = Convert.ToInt32(comboBox1.SelectedValue.ToString());
+                    z.Adresa.Nazivadrese = textBox5.Text;
                 }
-                if (Convert.ToInt32(comboBox2.SelectedValue.ToString()) != z.adresa.idGrad)
+
+                if (Convert.ToInt32(comboBox1.SelectedValue.ToString()) != z.Smjena.IdSmjena)
                 {
 
-                    z.adresa.idGrad = Convert.ToInt32(comboBox2.SelectedValue.ToString());
+                    var idSmjena = Convert.ToInt32(comboBox1.SelectedValue.ToString());
+                    z.Smjena = session.Get<Smjena>(idSmjena);
                 }
+                if (Convert.ToInt32(comboBox2.SelectedValue.ToString()) != z.Adresa.Grad.IdGrad)
+                {
+
+                    var idGrad = Convert.ToInt32(comboBox2.SelectedValue.ToString());
+                    z.Adresa.Grad = session.Get<Grad>(idGrad);
+            }
 
 
-                var mojeusluge = conn.zaposlenikusluga.Where(u => u.idZaposlenik == id).Select(u => u.usluga.idusluga).ToList();
+                var mojeusluge = session.Query<Zaposlenikusluga>().Where(u => u.Zaposlenik.IdZaposlenik == id).Select(u => u.Usluga.Idusluga).ToList();
 
                 foreach (var item in checkedListBox1.CheckedItems)
                 {
-                    var row = (usluga)item;
-                    if (!mojeusluge.Contains(row.idusluga))
+                    var row = (Usluga)item;
+                    if (!mojeusluge.Contains(row.Idusluga))
                     {
-                        var zu = new zaposlenikusluga();
-                        zu.idUsluga = row.idusluga;
-                        zu.idZaposlenik = id;
-                        conn.zaposlenikusluga.Add(zu);
+                        var zu = new Zaposlenikusluga();
+                        zu.Usluga = session.Get<Usluga>(row.Idusluga);
+                        zu.Zaposlenik = session.Get<Zaposlenik>(id);
+                    using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+                    {
+                        session.Save(zu); //  Save the book in session
+                        transaction.Commit();   //  Commit the changes to the database
                     }
+                }
 
                 }
                 foreach (object item in checkedListBox1.Items)
                 {
                     if (!checkedListBox1.CheckedItems.Contains(item))
                     {
-                        var row = (usluga)item;
-                        if (mojeusluge.Contains(row.idusluga))
+                        var row = (Usluga)item;
+                        if (mojeusluge.Contains(row.Idusluga))
                         {
-                            var us = conn.zaposlenikusluga.Where(a => a.idUsluga == row.idusluga).Where(a => a.idZaposlenik == id).SingleOrDefault();
-                            conn.zaposlenikusluga.Remove(us);
+                            var us = session.Query<Zaposlenikusluga>().Where(a => a.Usluga.Idusluga == row.Idusluga).Where(a => a.Zaposlenik.IdZaposlenik == id).SingleOrDefault();
+                        using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+                        {
+                            session.Delete(us); //  Save the book in session
+                            transaction.Commit();   //  Commit the changes to the database
                         }
+                    }
                     }
                 }
 
 
-                conn.SaveChanges();
-                MessageBox.Show("Spremljene promjene");
-
-
+            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+            {
+                
+                transaction.Commit();   //  Commit the changes to the database
             }
+            MessageBox.Show("Spremljene promjene");
+
+
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -202,18 +217,18 @@ namespace Desktop
                                      MessageBoxButtons.YesNo);
             if (confirmResult == DialogResult.Yes)
             {
-                using (kozmetickisalonEntities conn = new kozmetickisalonEntities())
+                
+                    var z = session.Query<Zaposlenik>().Where(a => a.IdZaposlenik == id).SingleOrDefault();
+                using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
                 {
-
-                    var z = conn.zaposlenik.Where(a => a.idZaposlenik == id).SingleOrDefault();
-                    conn.zaposlenik.Remove(z);
-
-                    conn.SaveChanges();
-                    MessageBox.Show("Zaposlenik obrisan");
+                    session.Delete(z);
+                    transaction.Commit();   //  Commit the changes to the database
+                }
+                MessageBox.Show("Zaposlenik obrisan");
                     this.Close();
 
 
-                }
+                
             }
             else
             {

@@ -53,6 +53,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,11 +66,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArtikliForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ArtikliForm.designer.cs">
+      <DependentUpon>ArtikliForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DetaljiNabaveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DetaljiNabaveForm.Designer.cs">
+    <Compile Include="DetaljiNabaveForm.designer.cs">
       <DependentUpon>DetaljiNabaveForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DobavljacDetaljiForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DobavljacDetaljiForm.designer.cs">
+      <DependentUpon>DobavljacDetaljiForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DodajUsluguForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DodajUsluguForm.designer.cs">
+      <DependentUpon>DodajUsluguForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DodajZaposlenikaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DodajZaposlenikaForm.designer.cs">
+      <DependentUpon>DodajZaposlenikaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -76,17 +102,47 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="NabaveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NabaveForm.designer.cs">
+      <DependentUpon>NabaveForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NarForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NarForm.Designer.cs">
+    <Compile Include="NarForm.designer.cs">
       <DependentUpon>NarForm.cs</DependentUpon>
     </Compile>
     <Compile Include="NovaNarudzbaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NovaNarudzbaForm.Designer.cs">
+    <Compile Include="NovaNarudzbaForm.designer.cs">
       <DependentUpon>NovaNarudzbaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NoviArtiklForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NoviArtiklForm.designer.cs">
+      <DependentUpon>NoviArtiklForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OsobljeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OsobljeForm.designer.cs">
+      <DependentUpon>OsobljeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PocetnaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PocetnaForm.designer.cs">
+      <DependentUpon>PocetnaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PregledNabavaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PregledNabavaForm.designer.cs">
+      <DependentUpon>PregledNabavaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,14 +152,47 @@
     <Compile Include="UrediZaposlenikForm.designer.cs">
       <DependentUpon>UrediZaposlenikForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UslugeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UslugeForm.designer.cs">
+      <DependentUpon>UslugeForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ArtikliForm.resx">
+      <DependentUpon>ArtikliForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetaljiNabaveForm.resx">
       <DependentUpon>DetaljiNabaveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DobavljacDetaljiForm.resx">
+      <DependentUpon>DobavljacDetaljiForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DodajUsluguForm.resx">
+      <DependentUpon>DodajUsluguForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DodajZaposlenikaForm.resx">
+      <DependentUpon>DodajZaposlenikaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NabaveForm.resx">
+      <DependentUpon>NabaveForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NarForm.resx">
       <DependentUpon>NarForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NovaNarudzbaForm.resx">
       <DependentUpon>NovaNarudzbaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NoviArtiklForm.resx">
+      <DependentUpon>NoviArtiklForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OsobljeForm.resx">
+      <DependentUpon>OsobljeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PocetnaForm.resx">
+      <DependentUpon>PocetnaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PregledNabavaForm.resx">
+      <DependentUpon>PregledNabavaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -116,6 +205,9 @@
     </Compile>
     <EmbeddedResource Include="UrediZaposlenikForm.resx">
       <DependentUpon>UrediZaposlenikForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UslugeForm.resx">
+      <DependentUpon>UslugeForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
