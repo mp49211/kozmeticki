@@ -4,44 +4,53 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Popis Nabava</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <h2>Prošle nabave artikala</h2>
+    </div>
+    <div class="col-md-6">
+        <button class="btn-default btn-lg">
+            @Html.ActionLink("Nova nabava", "Create")
+        </button>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Nova Nabava", "Create")
-</p>
+<hr />
 <table class="table">
     <tr>
         <th>
             Datum
         </th>
         <th>
-            Ukupna Cijena
+            Ukupna cijena
         </th>
-    
+
         <th>
             Dobavljač
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Datum.Day). @Html.DisplayFor(modelItem => item.Datum.Month). @Html.DisplayFor(modelItem => item.Datum.Year).
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UkupnaCijena)
-        </td>
-      
-        <td>
-            @Html.DisplayFor(modelItem => item.Dobavljac.NazivDobavljaca)
-        </td>
-        <td>
-          @* @Html.ActionLink("Uredi", "Edit", new { id=item.idnabava }) |*@
-            @Html.ActionLink("Detalji", "Details", new { id=item.Idnabava }) |
-            @Html.ActionLink("Obriši", "Delete", new { id=item.Idnabava })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datum.Day). @Html.DisplayFor(modelItem => item.Datum.Month). @Html.DisplayFor(modelItem => item.Datum.Year).
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UkupnaCijena)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Dobavljac.NazivDobavljaca)
+            </td>
+            <td>
+                @* @Html.ActionLink("Uredi", "Edit", new { id=item.idnabava }) |*@
+                @Html.ActionLink("Detalji", "Details", new { id = item.Idnabava }) |
+                @Html.ActionLink("Obriši", "Delete", new { id = item.Idnabava })
+            </td>
+        </tr>
+    }
 
 </table>

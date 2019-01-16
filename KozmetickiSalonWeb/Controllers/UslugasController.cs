@@ -86,7 +86,7 @@ namespace KozmetickiSalonWeb.Controllers
                 postoji = false;
                 foreach (var s in session.Query<Salonusluga>().ToList())
                 {
-                    if (s.Salon.IdSalon== AktivniSalon.IdAktivniSalon && s.Salon.IdSalon == u.Idusluga)
+                    if (s.Salon.IdSalon== AktivniSalon.IdAktivniSalon && s.Usluga.Idusluga == u.Idusluga)
                     {
                         postoji = true;
                     }
