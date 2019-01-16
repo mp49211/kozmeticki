@@ -37,6 +37,7 @@ namespace KozmetickiClassLibrary.Model {
                 {
 
                     TimeSpan vrijemePocetka = nar.Vrijeme.TimeOfDay;
+               
                     int duration = nar.Usluga.Trajanje;
                     TimeSpan vrijemeZavrsetka = vrijemePocetka + TimeSpan.FromMinutes(duration);
                     // MessageBox.Show(time + " " + zavrsetakMojeUsluge + " " + vrijemePocetka.ToString() + " " + vrijemeZavrsetka.ToString());

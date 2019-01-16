@@ -50,6 +50,7 @@ namespace UnitTest
             Usluga usluga = new Usluga();
 
             usluga.Trajanje = 60; // trajanje postojece usluge
+          
 
             nar.Vrijeme = new DateTime(2019, 1, 1, 5, 30, 0); //vrijeme postojece narudzbe
             nar.Usluga = usluga;
@@ -71,6 +72,7 @@ namespace UnitTest
             Usluga usluga = new Usluga();
 
             usluga.Trajanje = 60; //trajanje postojece usluge
+            usluga.Idusluga = 1;
 
             nar.Vrijeme = new DateTime(2019, 1, 1, 5, 30, 0); //vrijeme postojece narudzbe
             nar.Usluga = usluga;
