@@ -30,7 +30,7 @@
     <mapping resource="KozmetickiClassLibrary.Mapiranje.Salonusluga.hbm.xml" assembly="KozmetickiClassLibrary" />
     <mapping resource="KozmetickiClassLibrary.Mapiranje.Smjena.hbm.xml" assembly="KozmetickiClassLibrary" />
     <mapping resource="KozmetickiClassLibrary.Mapiranje.Usluga.hbm.xml" assembly="KozmetickiClassLibrary" />
-    
+    <mapping resource="KozmetickiClassLibrary.Mapiranje.Zaposlenik.hbm.xml" assembly="KozmetickiClassLibrary" />
     <mapping resource="KozmetickiClassLibrary.Mapiranje.Zaposlenikusluga.hbm.xml" assembly="KozmetickiClassLibrary" />
     
   </session-factory>

@@ -27,6 +27,13 @@ namespace KozmetickiSalonWeb.Controllers
 
                 }).ToList();
 
+            var employees = session.Query<Zaposlenik>().Where(z => z.Salon.IdSalon == AktivniSalon.IdAktivniSalon).Select(z => new ZaposlenikVM()
+            {
+                IdZaposlenik = z.IdZaposlenik,
+                IdSalon = z.Salon.IdSalon,
+                ImePrezime = z.Ime + " " + z.Prezime
+            }).ToList();
+            List<Zaposlenikusluga> zaposlenici = session.Query<Zaposlenikusluga>().ToList();
             foreach (var u in usluge)
             {
                 u.Kategorija = session.Query<Kategorija>().Select(k => new KategorijaVM()
@@ -34,9 +41,10 @@ namespace KozmetickiSalonWeb.Controllers
                     IdKategorija = k.IdKategorija,
                     Naziv = k.NazivKategorija
                 }).FirstOrDefault(k => k.IdKategorija == u.IdKategorija);
-                foreach (var z in session.Query<Zaposlenikusluga>().ToList())
+                
+                foreach (Zaposlenikusluga z in zaposlenici)
                 {
-                   
+                    if (z.Zaposlenik.IdZaposlenik == 0) continue;
                     if (z.Usluga.Idusluga == u.Idusluga && z.Zaposlenik.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
                     {
                         u.Zaposlenici.Add(new ZaposlenikVM()
