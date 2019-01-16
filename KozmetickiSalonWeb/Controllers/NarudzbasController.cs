@@ -131,6 +131,7 @@ namespace KozmetickiSalonWeb.Controllers
                     Naziv = x.Usluga.Naziv
                 }).ToList();
             ViewBag.idUsluga = new SelectList(usluge, "Idusluga", "Naziv");
+            ViewBag.poruka = "";
             return View(narudzba);
         }
 
@@ -263,7 +264,11 @@ namespace KozmetickiSalonWeb.Controllers
 
                 narudzba.Vremena = narudzba.Vremena.OrderBy(x => x.Vrijeme).ToList();
                 TempData["nar"] = narudzba;
-                return RedirectToAction("Create2");
+                if(narudzba.Vremena.Count > 0)
+                {
+                    return RedirectToAction("Create2");
+                }
+                
 
 
             }
@@ -275,6 +280,7 @@ namespace KozmetickiSalonWeb.Controllers
                      Naziv = x.Usluga.Naziv
                  }).ToList();
             ViewBag.idUsluga = new SelectList(usluge, "Idusluga", "Naziv");
+            ViewBag.poruka = "ZA ODABRANI DATUM NEMA SLOBODNIH TERMINA. ODABERI DRUGI!";
             return View(narudzba);
         }
 

@@ -37,7 +37,7 @@
             @*@Html.ValidationMessageFor(model => model.zaposlenik.idSmjena, "", new { @class = "text-danger" })*@
         </div>
     </div>
-
+    <p style="color:red"><b>@ViewBag.poruka</b></p>
     <div class="form-group">
         @Html.LabelFor(model => model.Datum, "Datum", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
