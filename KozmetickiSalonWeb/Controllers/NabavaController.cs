@@ -121,12 +121,12 @@ namespace KozmetickiSalonWeb.Controllers
 
                 foreach (var d in dob)
                 {
+                    List<Tuple<decimal, int>> list = new List<Tuple<decimal, int>>();
                     var map = new Dictionary<int, int>();
                     var novaNabava = new Nabava
                     {
                         Salon = session.Get<Salon>(AktivniSalon.IdAktivniSalon)
                     };
-                    decimal sum = 0;
                     int id = 0;
                     System.Diagnostics.Debug.WriteLine("Arts.Count: ", artikli.Arts.Count);
                     for (int i = 0; i < artikli.Arts.Count; ++i)
@@ -142,7 +142,7 @@ namespace KozmetickiSalonWeb.Controllers
                                 
                                 novaNabava.Dobavljac = artikli.Arts[i].Dobavljac;
                                 map.Add(artikli.Arts[i].IdArtikl, artikli.Kols[i]);
-                                sum += artikli.Arts[i].Cijena * artikli.Kols[i];
+                                list.Add(Tuple.Create(artikli.Arts[i].Cijena, artikli.Kols[i]));
                                 id++;
                             }
                         }
@@ -152,7 +152,7 @@ namespace KozmetickiSalonWeb.Controllers
                     if (id != 0)
                     {
                         novaNabava.Datum = dateTime;
-                        novaNabava.UkupnaCijena = sum;
+                        novaNabava.IzracunajUkupnuCijenu(list);
                         using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
                         {
                             session.Save(novaNabava); //  Save the book in session
