@@ -13,6 +13,7 @@ using KozmetickiClassLibrary.Model;
 using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
 
+
 namespace Desktop
 {
     public partial class UrediZaposlenikForm : Form
@@ -235,6 +236,12 @@ namespace Desktop
                 // If 'No', do something here.
             }
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ProfitForm ddform = new ProfitForm(this.id);
+            ddform.Show();
         }
     }
 }

@@ -21,5 +21,19 @@ namespace KozmetickiClassLibrary.Model {
         public virtual string Oib { get; set; }
         public virtual ICollection<Narudzba> Narudzba { get; set; }
         public virtual IList<Zaposlenikusluga> Zaposlenikusluga { get; set; }
+
+        public static decimal getZaposlenikProfitByMonth(ICollection<Narudzba> nar, int mjesec, int godina) {
+            decimal profit = 0;
+            foreach(var n in nar) {
+                if (n.Vrijeme.Month == mjesec && n.Vrijeme.Year==godina) {
+                    profit += n.Usluga.Cijena;
+
+                }
+
+
+            }
+            return profit;
+
+        }
     }
 }

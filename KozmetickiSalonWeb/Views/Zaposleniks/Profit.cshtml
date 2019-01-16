@@ -1,0 +1,106 @@
+﻿@model IList<decimal>
+@{
+    ViewBag.Title = "Profit";
+}
+
+<h2>Profit</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Siječanj
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[0])
+        </dd>
+
+        <dt>
+            Veljača
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[1])
+        </dd>
+        <dt>
+            Ožujak
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[2])
+        </dd>
+        <dt>
+            Travanj
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[3])
+        </dd>
+
+        <dt>
+            Svibanj
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[4])
+
+        </dd>
+        <dt>
+            Lipanj
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[5])
+        </dd>
+        <dt>
+            Srpanj
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[6])
+        </dd>
+        <dt>
+            Kolovoz
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[7])
+        </dd>
+        <dt>
+            Rujan
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[8])
+        </dd>
+        <dt>
+            Listopad
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[9])
+        </dd>
+        <dt>
+            Studeni
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[10])
+        </dd>
+        <dt>
+            Prosinac
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model[11])
+        </dd>
+
+
+
+
+
+
+</div>
+<div> @Html.ActionLink("Natrag na detalje", "Details")</div>

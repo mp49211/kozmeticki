@@ -81,6 +81,16 @@ namespace KozmetickiSalonWeb.Controllers
 
 
         }
+        public ActionResult Profit(int? id) {
+            Zaposlenik z = session.Get<Zaposlenik>(id);
+            List<decimal> profits = new List<decimal>();
+            for (int i = 1; i < 13; ++i) {
+                decimal profit = Zaposlenik.getZaposlenikProfitByMonth(z.Narudzba, i,2019);
+                profits.Add(profit);
+            }
+            return View(profits);
+            
+        }
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -89,7 +99,8 @@ namespace KozmetickiSalonWeb.Controllers
             }
            
                 Zaposlenik z = session.Get<Zaposlenik>(id);
-                ZaposlenikVM zaposlenik = new ZaposlenikVM()
+            
+            ZaposlenikVM zaposlenik = new ZaposlenikVM()
                 {
                     IdZaposlenik = z.IdZaposlenik,
                     Ime = z.Ime,
