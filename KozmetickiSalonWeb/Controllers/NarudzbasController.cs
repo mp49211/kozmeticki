@@ -268,6 +268,10 @@ namespace KozmetickiSalonWeb.Controllers
                 {
                     return RedirectToAction("Create2");
                 }
+                else
+                {
+                    ViewBag.poruka = "ZA ODABRANI DATUM NEMA SLOBODNIH TERMINA. ODABERI DRUGI!";
+                }
                 
 
 
@@ -280,7 +284,7 @@ namespace KozmetickiSalonWeb.Controllers
                      Naziv = x.Usluga.Naziv
                  }).ToList();
             ViewBag.idUsluga = new SelectList(usluge, "Idusluga", "Naziv");
-            ViewBag.poruka = "ZA ODABRANI DATUM NEMA SLOBODNIH TERMINA. ODABERI DRUGI!";
+            
             return View(narudzba);
         }
 
