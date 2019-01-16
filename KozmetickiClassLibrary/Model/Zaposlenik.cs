@@ -57,7 +57,7 @@ namespace KozmetickiClassLibrary.Model {
             }
             return zauzet;
         }
-        private static bool DoesOverlap(TimeSpan start1, TimeSpan end1, TimeSpan start2, TimeSpan end2)
+        public static bool DoesOverlap(TimeSpan start1, TimeSpan end1, TimeSpan start2, TimeSpan end2)
         {
 
             if (start1 > start2)
