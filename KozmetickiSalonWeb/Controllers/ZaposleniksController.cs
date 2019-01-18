@@ -6,6 +6,7 @@ using System.Linq;
 
 using KozmetickiClassLibrary.Model;
 using KozmetickiClassLibrary.ViewModels;
+using KozmetickiClassLibrary.Interfaces;
 using System.Net;
 using System.Collections.Generic;
 
@@ -13,12 +14,18 @@ namespace KozmetickiSalonWeb.Controllers
 {
     public class ZaposleniksController : Controller
     {
-        ISession session = NHibertnateSession.OpenSession();
+      
+        private IRepository zaposlenikRepository;
+
+        public ZaposleniksController() {
+            this.zaposlenikRepository = new Repository();
+        }
+
         // GET: Zaposleniks
         public ActionResult Index()
         {
            
-                var employees = session.Query<Zaposlenik>().Where(z => z.Salon.IdSalon == AktivniSalon.IdAktivniSalon).Select(z => new ZaposlenikVM()
+                var employees = zaposlenikRepository.GetZaposleniksQuery().Where(z => z.Salon.IdSalon == AktivniSalon.IdAktivniSalon).Select(z => new ZaposlenikVM()
                 {
                     IdZaposlenik = z.IdZaposlenik,
                     Ime = z.Ime,
@@ -51,7 +58,7 @@ namespace KozmetickiSalonWeb.Controllers
                 }).ToList();
 
 
-                var usluge = session.Query<Zaposlenikusluga>().ToList();
+                var usluge = zaposlenikRepository.GetZaposlenikUsluga();
             foreach (var z in employees)
             {
                 foreach (var x in usluge)
@@ -82,12 +89,13 @@ namespace KozmetickiSalonWeb.Controllers
 
         }
         public ActionResult Profit(int? id) {
-            Zaposlenik z = session.Get<Zaposlenik>(id);
+            Zaposlenik z = zaposlenikRepository.GetZaposlenikByID(id);
             List<decimal> profits = new List<decimal>();
             for (int i = 1; i < 13; ++i) {
                 decimal profit = Zaposlenik.getZaposlenikProfitByMonth(z.Narudzba, i,2019);
                 profits.Add(profit);
             }
+            profits.Add(Convert.ToDecimal(id));
             return View(profits);
             
         }
@@ -98,8 +106,8 @@ namespace KozmetickiSalonWeb.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
            
-                Zaposlenik z = session.Get<Zaposlenik>(id);
-            
+                Zaposlenik z = zaposlenikRepository.GetZaposlenikByID(id);
+
             ZaposlenikVM zaposlenik = new ZaposlenikVM()
                 {
                     IdZaposlenik = z.IdZaposlenik,
@@ -134,7 +142,7 @@ namespace KozmetickiSalonWeb.Controllers
 
 
 
-                var usluge = session.Query<Zaposlenikusluga>().ToList();
+                var usluge = zaposlenikRepository.GetZaposlenikUsluga();
                 foreach (var x in usluge)
                 {
                    
@@ -170,12 +178,12 @@ namespace KozmetickiSalonWeb.Controllers
         public ActionResult Create()
         {
            
-                var grad = session.Query<Grad>().AsEnumerable();
-                var smjena = session.Query<Smjena>().AsEnumerable();
+                var grad = zaposlenikRepository.GetGrad().AsEnumerable();
+                var smjena = zaposlenikRepository.GetSmjena().AsEnumerable();
                 ViewBag.idGrad = new SelectList(grad, "idGrad", "nazivGrada");
                 ViewBag.idSmjena = new SelectList(smjena, "idSmjena", "smjenaVal");
                 ZaposlenikAdresaVM za = new ZaposlenikAdresaVM();
-                za.usluge = session.Query < Usluga > ().Select(u => new UslugaVM()
+                za.usluge = zaposlenikRepository.GetUsluga().Select(u => new UslugaVM()
                 {
                     Idusluga = u.Idusluga,
                     Naziv = u.Naziv,
@@ -201,49 +209,37 @@ namespace KozmetickiSalonWeb.Controllers
                     int id;
                     ad.Grad = za.adresa.Grad;
                     ad.Nazivadrese = za.adresa.Nazivadrese;
-                    using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                    {
-                     id = (int)session.Save(ad); //  Save the book in session
-                        transaction.Commit();   //  Commit the changes to the database
-                    }
+                    id = zaposlenikRepository.InsertAdresa(ad);
                     Zaposlenik zaposlenik = za.zaposlenik;
-                    ad = session.Query<Adresa>().Where(b => b.IdAdresa == id).FirstOrDefault();
+                    ad = zaposlenikRepository.GetAdresa().Where(b => b.IdAdresa == id).FirstOrDefault();
                     zaposlenik.Adresa = ad;
                    // zaposlenik.Adresa.IdAdresa = ad.IdAdresa;
-                     zaposlenik.Salon = session.Query<Salon>().Where(s => s.IdSalon == AktivniSalon.IdAktivniSalon).FirstOrDefault();
-                      //zaposlenik.Salon.IdSalon = AktivniSalon.IdAktivniSalon;
-                   
-                    using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                    {
-                        session.Save(zaposlenik); //  Save the book in session
-                        transaction.Commit();   //  Commit the changes to the database
-                    }
+                     zaposlenik.Salon = zaposlenikRepository.GetSalon().Where(s => s.IdSalon == AktivniSalon.IdAktivniSalon).FirstOrDefault();
+                //zaposlenik.Salon.IdSalon = AktivniSalon.IdAktivniSalon;
+
+                zaposlenikRepository.InsertZaposlenik(zaposlenik);
                   
                     foreach (var u in za.usluge)
                     {
                         if (u.Odabrana)
                         {
                           
-                            var usl=session.Get<Usluga>(u.Idusluga);
+                           
                             Zaposlenikusluga zu = new Zaposlenikusluga()
                             {
-                                Usluga = session.Get<Usluga>(u.Idusluga),
-                                Zaposlenik = session.Get<Zaposlenik>(zaposlenik.IdZaposlenik)
+                                Usluga = zaposlenikRepository.GetUslugaByID(u.Idusluga),
+                                 Zaposlenik = zaposlenikRepository.GetZaposlenikByID(zaposlenik.IdZaposlenik)
 
                             };
-                            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                            {
-                                session.Save(zu); //  Save the book in session
-                                transaction.Commit();   //  Commit the changes to the database
-                            }
+                        zaposlenikRepository.InsertZaposlenikusluga(zu);
                         }
                     }
                    
                     return RedirectToAction("Index");
                    
                 }
-                var grad = session.Query<Grad>().AsEnumerable();
-                var smjena = session.Query<Smjena>().AsEnumerable();
+                var grad = zaposlenikRepository.GetGrad().AsEnumerable();
+                var smjena = zaposlenikRepository.GetSmjena().AsEnumerable();
                 ViewBag.idGrad = new SelectList(grad, "idGrad", "nazivGrada", za.adresa.Grad.IdGrad);
                 ViewBag.idSmjena = new SelectList(smjena, "idSmjena", "smjenaVal", za.zaposlenik.Smjena.IdSmjena);
             
@@ -260,7 +256,7 @@ namespace KozmetickiSalonWeb.Controllers
             }
            
 
-                Zaposlenik zaposlenik = session.Get<Zaposlenik>(id);
+                Zaposlenik zaposlenik = zaposlenikRepository.GetZaposlenikByID(id);
                 if (zaposlenik == null)
                 {
                     return HttpNotFound();
@@ -272,10 +268,10 @@ namespace KozmetickiSalonWeb.Controllers
                     usluge = new List<UslugaVM>()
                 };
 
-                foreach (var u in session.Query<Usluga>().ToList())
+                foreach (var u in zaposlenikRepository.GetUsluga().ToList())
                 {
 
-                    if (session.Query<Zaposlenikusluga>().Any(x => x.Zaposlenik.IdZaposlenik == id && x.Usluga.Idusluga == u.Idusluga))
+                    if (zaposlenikRepository.GetZaposlenikUsluga().Any(x => x.Zaposlenik.IdZaposlenik == id && x.Usluga.Idusluga == u.Idusluga))
                     {
                         za.usluge.Add(new UslugaVM()
                         {
@@ -294,8 +290,8 @@ namespace KozmetickiSalonWeb.Controllers
                         });
                     }
                 }
-                var grad = session.Query<Grad>().AsEnumerable();
-                var smjena = session.Query<Smjena>().AsEnumerable();
+                var grad = zaposlenikRepository.GetGrad().AsEnumerable();
+                var smjena = zaposlenikRepository.GetSmjena().AsEnumerable();
                 ViewBag.idGrad = new SelectList(grad, "idGrad", "nazivGrada", za.adresa.Grad.IdGrad);
                 ViewBag.idSmjena = new SelectList(smjena, "idSmjena", "smjenaVal", za.zaposlenik.Smjena.IdSmjena);
                 return View(za);
@@ -311,21 +307,17 @@ namespace KozmetickiSalonWeb.Controllers
         public ActionResult Edit(ZaposlenikAdresaVM za)
         {
 
-                Zaposlenik zap= session.Get<Zaposlenik>(za.zaposlenik.IdZaposlenik);
+                Zaposlenik zap= zaposlenikRepository.GetZaposlenikByID(za.zaposlenik.IdZaposlenik);
 
                 if (ModelState.IsValid)
                 {
                     var ad = za.adresa;
-                    var gr = session.Get<Grad>(za.adresa.Grad.IdGrad);
+                    var gr = zaposlenikRepository.GetGradByID(za.adresa.Grad.IdGrad);
                     if (!((ad.Nazivadrese.Equals(zap.Adresa.Nazivadrese) || ad.Nazivadrese == zap.Adresa.Nazivadrese)
                         && ad.Grad.IdGrad == zap.Adresa.Grad.IdGrad))
                     {
                         ad.Grad = gr;
-                        using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                        {
-                            session.Save(ad); //  Save the book in session
-                            transaction.Commit();   //  Commit the changes to the database
-                        }
+                        zaposlenikRepository.InsertAdresa(ad);
                       
                         zap.Adresa = ad;
                     }
@@ -333,41 +325,36 @@ namespace KozmetickiSalonWeb.Controllers
                     zap.Ime = za.zaposlenik.Ime;
                     zap.Prezime = za.zaposlenik.Prezime;
                     zap.Oib = za.zaposlenik.Oib;
-                    zap.Smjena = session.Get<Smjena>(za.zaposlenik.Smjena.IdSmjena);
+                    zap.Smjena = zaposlenikRepository.GetSmjenaByID(za.zaposlenik.Smjena.IdSmjena);
 
-                    using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                    {
-                        session.Merge(zap); //  Save the book in session
-                        transaction.Commit();   //  Commit the changes to the database
-                    }
+                zaposlenikRepository.InsertZaposlenik(zap);
                     foreach (var u in za.usluge)
                     {
-                        if (u.Odabrana && !session.Query<Zaposlenikusluga>().Any(x => x.Usluga.Idusluga == u.Idusluga && x.Zaposlenik.IdZaposlenik == zap.IdZaposlenik))
+                        if (u.Odabrana && !zaposlenikRepository.GetZaposlenikUsluga().Any(x => x.Usluga.Idusluga == u.Idusluga && x.Zaposlenik.IdZaposlenik == zap.IdZaposlenik))
                         {
                             Zaposlenikusluga zu = new Zaposlenikusluga()
                             {
-                                Zaposlenik = session.Get<Zaposlenik>(zap.IdZaposlenik),
+                                Zaposlenik = zaposlenikRepository.GetZaposlenikByID(zap.IdZaposlenik),
                              
-                                Usluga = session.Get<Usluga>(u.Idusluga) 
+                                Usluga = zaposlenikRepository.GetUslugaByID(u.Idusluga) 
                             };
-                            session.Save(zu);
+                        zaposlenikRepository.InsertZaposlenikusluga(zu);
+                          
                         }
 
-                        if (!u.Odabrana && session.Query<Zaposlenikusluga>().Any(x => x.Usluga.Idusluga == u.Idusluga && x.Zaposlenik.IdZaposlenik == zap.IdZaposlenik))
+                        if (!u.Odabrana && zaposlenikRepository.GetZaposlenikUsluga().Any(x => x.Usluga.Idusluga == u.Idusluga && x.Zaposlenik.IdZaposlenik == zap.IdZaposlenik))
                         {
-                            Zaposlenikusluga zu = session.Query<Zaposlenikusluga>().Where(x => x.Usluga.Idusluga == u.Idusluga && x.Zaposlenik.IdZaposlenik == zap.IdZaposlenik).FirstOrDefault();
-                            session.Delete(zu);
+                            Zaposlenikusluga zu = zaposlenikRepository.GetZaposlenikUsluga().Where(x => x.Usluga.Idusluga == u.Idusluga && x.Zaposlenik.IdZaposlenik == zap.IdZaposlenik).FirstOrDefault();
+                           zaposlenikRepository.DeleteZaposlenikusluga(zu);
+                       
                         }
                     }
-                    using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                    {
-                     
-                        transaction.Commit();   //  Commit the changes to the database
-                    }
+
+                zaposlenikRepository.Commit();
                     return RedirectToAction("Index");
                 }
-                var grad = session.Query<Grad>().AsEnumerable();
-                var smjena = session.Query<Smjena>().AsEnumerable();
+                var grad = zaposlenikRepository.GetGrad().AsEnumerable();
+                var smjena = zaposlenikRepository.GetSmjena().AsEnumerable();
                 ViewBag.idGrad = new SelectList(grad, "idGrad", "nazivGrada", za.adresa.Grad.IdGrad);
                 ViewBag.idSmjena = new SelectList(smjena, "idSmjena", "smjenaVal", za.zaposlenik.Smjena.IdSmjena);
                 return View(zap);
@@ -382,7 +369,7 @@ namespace KozmetickiSalonWeb.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
            
-                Zaposlenik zaposlenik = session.Get<Zaposlenik>(id);
+                Zaposlenik zaposlenik = zaposlenikRepository.GetZaposlenikByID(id);
 
                 if (zaposlenik == null)
                 {
@@ -398,32 +385,19 @@ namespace KozmetickiSalonWeb.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
            
-                Zaposlenik zaposlenik = session.Get<Zaposlenik>(id);
+                Zaposlenik zaposlenik = zaposlenikRepository.GetZaposlenikByID(id);
             foreach (var i in zaposlenik.Zaposlenikusluga) {
-                Zaposlenikusluga zaposlenikusl = session.Get<Zaposlenikusluga>(i.IdZaposlenikUsluga);
-                session.Delete(zaposlenikusl);
+                Zaposlenikusluga zaposlenikusl = zaposlenikRepository.GetZaposlenikUslugaByID(i.IdZaposlenikUsluga);
+                zaposlenikRepository.DeleteZaposlenikusluga(zaposlenikusl);
             }
            
            
-            session.Delete(zaposlenik);
-                using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                {
-                
-                    transaction.Commit();   //  Commit the changes to the database
-                }
+            zaposlenikRepository.DeleteZaposlenik(zaposlenik);
+           
                 return RedirectToAction("Index");
             
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-               
-                    session.Dispose();
-                
-            }
-            base.Dispose(disposing);
-        }
+       
     }
 }
