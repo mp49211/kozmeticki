@@ -1,4 +1,5 @@
-﻿using KozmetickiClassLibrary.Model;
+﻿using KozmetickiClassLibrary.Interfaces;
+using KozmetickiClassLibrary.Model;
 using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
 using System;
@@ -12,11 +13,17 @@ namespace KozmetickiSalonWeb.Controllers
 {
     public class HomeController : Controller
     {
-        ISession session = NHibertnateSession.OpenSession();
+        private IRepository homeRepository;
+
+        public HomeController()
+        {
+            this.homeRepository = new Repository();
+        }
+
         public ActionResult Index()
         {
             
-                var salon = session.Query<Salon>().AsEnumerable();
+                var salon = homeRepository.GetSalon().AsEnumerable();
                 
                 ViewBag.idSalon = new SelectList(salon, "idSalon", "naziv");
                 return View();
@@ -29,7 +36,7 @@ namespace KozmetickiSalonWeb.Controllers
             AktivniSalon.IdAktivniSalon = salon.IdSalon;
             AktivniSalon.Postoji = true;
             
-                AktivniSalon.Naziv = session.Query<Salon>().Where(b => b.IdSalon == salon.IdSalon).FirstOrDefault().Naziv;
+                AktivniSalon.Naziv = homeRepository.GetSalon().Where(b => b.IdSalon == salon.IdSalon).FirstOrDefault().Naziv;
          
 
          
@@ -41,7 +48,7 @@ namespace KozmetickiSalonWeb.Controllers
         public ActionResult About()
         {
             
-                var nar = session.Query<Narudzba>().Where(a => a.Salon.IdSalon == AktivniSalon.IdAktivniSalon).Select(a => new NarudzbaVM()
+                var nar = homeRepository.GetNarudzba().Where(a => a.Salon.IdSalon == AktivniSalon.IdAktivniSalon).Select(a => new NarudzbaVM()
                 {
 
                     IdNarudzba = a.IdNarudzba,

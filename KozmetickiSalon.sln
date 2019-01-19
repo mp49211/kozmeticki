@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KozmetickiSalonWeb", "Kozme
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KozmetickiSalonDesktop", "KozmetickiSalonDesktop\KozmetickiSalonDesktop.csproj", "{4F57A473-B5F4-49D9-8775-A08A811ACD6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{B144C49F-6020-4248-8415-CFFEB0E9D813}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4F57A473-B5F4-49D9-8775-A08A811ACD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F57A473-B5F4-49D9-8775-A08A811ACD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F57A473-B5F4-49D9-8775-A08A811ACD6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B144C49F-6020-4248-8415-CFFEB0E9D813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B144C49F-6020-4248-8415-CFFEB0E9D813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B144C49F-6020-4248-8415-CFFEB0E9D813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B144C49F-6020-4248-8415-CFFEB0E9D813}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

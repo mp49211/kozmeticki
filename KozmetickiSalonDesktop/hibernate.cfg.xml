@@ -19,23 +19,6 @@
     <!-- mapping files -->
 
 
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Adresa.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Artikl.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Artiklsalon.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Dobavljac.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Grad.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Kategorija.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Nabava.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Nabavaartikl.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Narudzba.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Proizvodac.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Salon.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Salonusluga.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Smjena.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Usluga.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Zaposlenik.hbm.xml" assembly="KozmetickiClassLibrary" />
-    <mapping resource="KozmetickiClassLibrary.Mapiranje.Zaposlenikusluga.hbm.xml" assembly="KozmetickiClassLibrary" />
-
 
 
 

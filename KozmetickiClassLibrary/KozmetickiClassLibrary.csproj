@@ -63,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\Repository.cs" />
     <Compile Include="Model\Adresa.cs" />
     <Compile Include="Model\Artikl.cs" />
     <Compile Include="Model\Artiklsalon.cs" />
