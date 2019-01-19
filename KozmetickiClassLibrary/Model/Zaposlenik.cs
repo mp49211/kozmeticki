@@ -27,7 +27,7 @@ namespace KozmetickiClassLibrary.Model {
         public virtual IList<Zaposlenikusluga> Zaposlenikusluga { get; set; }
 
         //filtrirana lista(zaposlenik i dan), vrijeme(sati i minute) narudzbe, trajanje željene usluge
-        public static Boolean provjeriZauzetost(IList<Narudzba> svenarudzbeZaposlenika, TimeSpan vrijemeNarudzbe, int trajanjeUsluge)
+        public static Boolean ProvjeriZauzetost(IList<Narudzba> svenarudzbeZaposlenika, TimeSpan vrijemeNarudzbe, int trajanjeUsluge)
         {
             Boolean zauzet = false;
             try
@@ -88,7 +88,7 @@ namespace KozmetickiClassLibrary.Model {
                 return true;
             }
         }
-        public static decimal getZaposlenikProfitByMonth(ICollection<Narudzba> nar, int mjesec, int godina)
+        public static decimal GetZaposlenikProfitByMonth(ICollection<Narudzba> nar, int mjesec, int godina)
         {
             decimal profit = 0;
             foreach (var n in nar)

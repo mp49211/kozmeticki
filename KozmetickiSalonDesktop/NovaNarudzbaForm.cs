@@ -113,7 +113,7 @@ namespace Desktop
         {
             var narudzbeZaposlenikaZaDan = PocetnaForm.svenarudzbe.Where(x => x.Zaposlenik.IdZaposlenik == idz).ToList();
             narudzbeZaposlenikaZaDan = narudzbeZaposlenikaZaDan.Where(x => x.Vrijeme.Date.ToShortDateString().Equals(date)).ToList();
-            Boolean z = Zaposlenik.provjeriZauzetost(narudzbeZaposlenikaZaDan, time, trajanje);
+            Boolean z = Zaposlenik.ProvjeriZauzetost(narudzbeZaposlenikaZaDan, time, trajanje);
             if (z)
             {
                 MessageBox.Show("Odabrani zaposlenik je ZAUZET u odabranom terminu!");
@@ -131,7 +131,7 @@ namespace Desktop
             {
                 var narudzbeZaposlenikaZaDan = PocetnaForm.svenarudzbe.Where(x => x.Zaposlenik.IdZaposlenik == idz).ToList();
                 narudzbeZaposlenikaZaDan = narudzbeZaposlenikaZaDan.Where(x => x.Vrijeme.Date.ToShortDateString().Equals(date)).ToList();
-                Boolean occ = Zaposlenik.provjeriZauzetost(narudzbeZaposlenikaZaDan, time, trajanje);
+                Boolean occ = Zaposlenik.ProvjeriZauzetost(narudzbeZaposlenikaZaDan, time, trajanje);
                 if (occ)
                 {
                     if (MessageBox.Show("Unjeti novu narudzbu iako je zaposlenik zauzet?", "EF CRUD Operation", MessageBoxButtons.YesNo) == DialogResult.No)
