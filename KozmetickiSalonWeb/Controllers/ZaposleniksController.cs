@@ -92,7 +92,7 @@ namespace KozmetickiSalonWeb.Controllers
             Zaposlenik z = zaposlenikRepository.GetZaposlenikByID(id);
             List<decimal> profits = new List<decimal>();
             for (int i = 1; i < 13; ++i) {
-                decimal profit = Zaposlenik.getZaposlenikProfitByMonth(z.Narudzba, i,2019);
+                decimal profit = Zaposlenik.GetZaposlenikProfitByMonth(z.Narudzba, i,2019);
                 profits.Add(profit);
             }
             profits.Add(Convert.ToDecimal(id));

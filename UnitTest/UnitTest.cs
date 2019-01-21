@@ -59,7 +59,7 @@ namespace UnitTest
             TimeSpan start = new TimeSpan(6, 0, 0); //vrijeme NOVE narudzbe
             int trajanjeNove = 30; //trajanje NOVE narudzbe
 
-            bool zauzet= Zaposlenik.provjeriZauzetost(narudzbe, start, trajanjeNove);
+            bool zauzet= Zaposlenik.ProvjeriZauzetost(narudzbe, start, trajanjeNove);
 
             //metoda vraca TRUE ako je korisnik zeuzet u traženom terminu
             Assert.IsTrue(zauzet);
@@ -82,7 +82,7 @@ namespace UnitTest
             int trajanjeNove = 30; //trajanje NOVE narudzbe
 
             //metoda vraca FALSE ako je korisnik slobodan u traženom terminu
-            bool zauzet = Zaposlenik.provjeriZauzetost(narudzbe, start, trajanjeNove);
+            bool zauzet = Zaposlenik.ProvjeriZauzetost(narudzbe, start, trajanjeNove);
 
             Assert.IsFalse(zauzet);
         }
@@ -106,7 +106,7 @@ namespace UnitTest
             
             narudzbe.Add(nar);
             narudzbe.Add(nar1);
-            decimal profit = Zaposlenik.getZaposlenikProfitByMonth(narudzbe, 2, 2019);
+            decimal profit = Zaposlenik.GetZaposlenikProfitByMonth(narudzbe, 2, 2019);
             Assert.AreEqual(400, profit);
         }
 
@@ -136,7 +136,7 @@ namespace UnitTest
             narudzbe.Add(nar);
             narudzbe.Add(nar1);
             narudzbe.Add(nar2);
-            decimal profit = Zaposlenik.getZaposlenikProfitByMonth(narudzbe, 2, 2019);
+            decimal profit = Zaposlenik.GetZaposlenikProfitByMonth(narudzbe, 2, 2019);
             Assert.AreNotEqual(700, profit);
         }
 
