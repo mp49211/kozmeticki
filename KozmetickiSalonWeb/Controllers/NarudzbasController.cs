@@ -1,4 +1,5 @@
-﻿using KozmetickiClassLibrary.Model;
+﻿using KozmetickiClassLibrary.Interfaces;
+using KozmetickiClassLibrary.Model;
 using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
 using System;
@@ -12,12 +13,17 @@ namespace KozmetickiSalonWeb.Controllers
 {
     public class NarudzbasController : Controller
     {
-        ISession session = NHibertnateSession.OpenSession();
+        private IRepository narudzbaRepository;
+
+        public NarudzbasController()
+        {
+            this.narudzbaRepository = new Repository();
+        }
         public ActionResult Index()
         {
             NarudzbeVM nar = new NarudzbeVM();
             nar.datum = DateTime.Today;
-            var narudzba = session.Query<Narudzba>().Where(x => x.Salon.IdSalon == AktivniSalon.IdAktivniSalon);
+            var narudzba = narudzbaRepository.GetNarudzba().Where(x => x.Salon.IdSalon == AktivniSalon.IdAktivniSalon);
             List<NarudzbaVM> narudzbe = narudzba.Select(x => new NarudzbaVM()
             {
                 IdNarudzba = x.IdNarudzba,
@@ -33,14 +39,14 @@ namespace KozmetickiSalonWeb.Controllers
 
             foreach (var n in narudzbe)
             {
-                n.Zaposlenik = session.Query<Zaposlenik>().Select(x => new ZaposlenikVM()
+                n.Zaposlenik = narudzbaRepository.GetZaposleniksQuery().Select(x => new ZaposlenikVM()
                 {
                     IdZaposlenik = x.IdZaposlenik,
                     ImePrezime = x.Ime + " " + x.Prezime
 
                 }).FirstOrDefault(x => x.IdZaposlenik == n.IdZaposlenik);
 
-                n.Usluga = session.Query<Usluga>().Select(x => new UslugaVM()
+                n.Usluga = narudzbaRepository.GetUsluga().Select(x => new UslugaVM()
                 {
                     Idusluga = x.Idusluga,
                     Naziv = x.Naziv,
@@ -59,7 +65,7 @@ namespace KozmetickiSalonWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<NarudzbaVM> narudzbe = session.Query<Narudzba>()
+                List<NarudzbaVM> narudzbe = narudzbaRepository.GetNarudzba()
                     .Where(n => n.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
                     .Select(n => new NarudzbaVM()
                     {
@@ -76,14 +82,14 @@ namespace KozmetickiSalonWeb.Controllers
 
                 foreach (var n in narudzbe)
                 {
-                    n.Zaposlenik = session.Query<Zaposlenik>().Select(x => new ZaposlenikVM()
+                    n.Zaposlenik = narudzbaRepository.GetZaposleniksQuery().Select(x => new ZaposlenikVM()
                     {
                         IdZaposlenik = x.IdZaposlenik,
                         ImePrezime = x.Ime + " " + x.Prezime
 
                     }).FirstOrDefault(x => x.IdZaposlenik == n.IdZaposlenik);
 
-                    n.Usluga = session.Query<Usluga>().Select(x => new UslugaVM()
+                    n.Usluga = narudzbaRepository.GetUsluga().Select(x => new UslugaVM()
                     {
                         Idusluga = x.Idusluga,
                         Naziv = x.Naziv,
@@ -106,7 +112,7 @@ namespace KozmetickiSalonWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Narudzba narudzba = session.Get<Narudzba>(id);
+            Narudzba narudzba = narudzbaRepository.GetNarudzbaByID(id);
             if (narudzba == null)
             {
                 return HttpNotFound();
@@ -124,7 +130,7 @@ namespace KozmetickiSalonWeb.Controllers
 
             };
 
-            var usluge = session.Query<Salonusluga>().Where(x => x.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
+            var usluge = narudzbaRepository.GetSalonUsluga().Where(x => x.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
                 .Select(x => new UslugaVM()
                 {
                     Idusluga = x.Usluga.Idusluga,
@@ -145,7 +151,7 @@ namespace KozmetickiSalonWeb.Controllers
             if (ModelState.IsValid)
             {
 
-                narudzba.Usluga = session.Query<Usluga>().Select(x => new UslugaVM()
+                narudzba.Usluga = narudzbaRepository.GetUsluga().Select(x => new UslugaVM()
                 {
                     Idusluga = x.Idusluga,
                     Naziv = x.Naziv,
@@ -154,7 +160,7 @@ namespace KozmetickiSalonWeb.Controllers
                 }).FirstOrDefault(x => x.Idusluga == narudzba.IdUsluga);
 
                 List<ZaposlenikVM> zaposlenici = new List<ZaposlenikVM>();
-                foreach (var z in session.Query<Zaposlenik>())
+                foreach (var z in narudzbaRepository.GetZaposleniksQuery())
                 {
                     if (z.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
                     {
@@ -173,7 +179,7 @@ namespace KozmetickiSalonWeb.Controllers
                     }
                 }
 
-                List<Narudzba> narudzbe = session.Query<Narudzba>().Where(x => x.Salon.IdSalon == AktivniSalon.IdAktivniSalon).ToList();
+                List<Narudzba> narudzbe = narudzbaRepository.GetNarudzba().Where(x => x.Salon.IdSalon == AktivniSalon.IdAktivniSalon).ToList();
 
                 narudzbe.RemoveAll(x => x.Vrijeme.Date.CompareTo(narudzba.Datum.Date) != 0);
                 Dictionary<int, List<DateTime>> vremena = new Dictionary<int, List<DateTime>>();
@@ -240,7 +246,7 @@ namespace KozmetickiSalonWeb.Controllers
                 int i = 1;
                 foreach (var x in vremena.Keys)
                 {
-                    Zaposlenik zapo = session.Query<Zaposlenik>().FirstOrDefault(z => z.IdZaposlenik == x);
+                    Zaposlenik zapo = narudzbaRepository.GetZaposleniksQuery().FirstOrDefault(z => z.IdZaposlenik == x);
                     ZaposlenikVM zap = new ZaposlenikVM()
                     {
                         IdZaposlenik = zapo.IdZaposlenik,
@@ -277,7 +283,7 @@ namespace KozmetickiSalonWeb.Controllers
 
             }
 
-            var usluge = session.Query<Salonusluga>().Where(x => x.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
+            var usluge = narudzbaRepository.GetSalonUsluga().Where(x => x.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
                  .Select(x => new UslugaVM()
                  {
                      Idusluga = x.Usluga.Idusluga,
@@ -302,9 +308,9 @@ namespace KozmetickiSalonWeb.Controllers
         public ActionResult Create2(NarudzbaVM narudzba)
         {
             ZaposlenikVrijemeVM zv = narudzba.Vremena.FirstOrDefault(x => x.Id == narudzba.IdVrijeme);
-            var salon= session.Get<Salon>(AktivniSalon.IdAktivniSalon);
-            var usluga = session.Get<Usluga>(narudzba.IdUsluga);
-            var zaposlenik = session.Get<Zaposlenik>(zv.IdZaposlenik);
+            var salon= narudzbaRepository.GetSalonByID(AktivniSalon.IdAktivniSalon);
+            var usluga = narudzbaRepository.GetUslugaByID(narudzba.IdUsluga);
+            var zaposlenik = narudzbaRepository.GetZaposlenikByID(zv.IdZaposlenik);
 
             Narudzba nar = new Narudzba()
             {
@@ -316,11 +322,8 @@ namespace KozmetickiSalonWeb.Controllers
                 Vrijeme = zv.Vrijeme
 
             };
-            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-            {
-                session.Save(nar); //  Save the book in session
-                transaction.Commit();   //  Commit the changes to the database
-            }
+
+            narudzbaRepository.InsertNarudzba(nar);
         
             return RedirectToAction("Index", "Pocetna");
         }
@@ -332,14 +335,14 @@ namespace KozmetickiSalonWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Narudzba narudzba = session.Get<Narudzba>(id);
+            Narudzba narudzba = narudzbaRepository.GetNarudzbaByID(id);
             if (narudzba == null)
             {
                 return HttpNotFound();
             }
-            var salon = session.Query<Salon>().AsEnumerable();
-            var zaposlenik = session.Query<Zaposlenik>().AsEnumerable();
-            var usluga = session.Query<Usluga>().AsEnumerable();
+            var salon = narudzbaRepository.GetSalon().AsEnumerable();
+            var zaposlenik = narudzbaRepository.GetZaposleniksQuery().AsEnumerable();
+            var usluga = narudzbaRepository.GetUsluga().AsEnumerable();
             ViewBag.idSalon = new SelectList(salon, "idSalon", "naziv", narudzba.IdNarudzba);
             ViewBag.idZaposlenik = new SelectList(zaposlenik, "idZaposlenik", "ime", narudzba.Zaposlenik.IdZaposlenik);
             ViewBag.idUsluga = new SelectList(usluga, "idusluga", "naziv", narudzba.Usluga.Idusluga);
@@ -355,16 +358,13 @@ namespace KozmetickiSalonWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                {
-                    session.Save(narudzba); //  Save the book in session
-                    transaction.Commit();   //  Commit the changes to the database
-                }
+                narudzbaRepository.InsertNarudzba(narudzba);
+              
                 return RedirectToAction("Index");
             }
-            var salon = session.Query<Salon>().AsEnumerable();
-            var zaposlenik = session.Query<Zaposlenik>().AsEnumerable();
-            var usluga = session.Query<Usluga>().AsEnumerable();
+            var salon = narudzbaRepository.GetSalon().AsEnumerable();
+            var zaposlenik = narudzbaRepository.GetZaposleniksQuery().AsEnumerable();
+            var usluga = narudzbaRepository.GetUsluga().AsEnumerable();
             ViewBag.idSalon = new SelectList(salon, "idSalon", "naziv", narudzba.IdNarudzba);
             ViewBag.idZaposlenik = new SelectList(zaposlenik, "idZaposlenik", "ime", narudzba.Zaposlenik.IdZaposlenik);
             ViewBag.idUsluga = new SelectList(usluga, "idusluga", "naziv", narudzba.Usluga.Idusluga);
@@ -378,7 +378,7 @@ namespace KozmetickiSalonWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Narudzba narudzba = session.Get<Narudzba>(id);
+            Narudzba narudzba = narudzbaRepository.GetNarudzbaByID(id);
             if (narudzba == null)
             {
                 return HttpNotFound();
@@ -391,23 +391,12 @@ namespace KozmetickiSalonWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Narudzba narudzba = session.Get<Narudzba>(id);
-            session.Delete(narudzba);
-            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-            {
-       
-                transaction.Commit();   //  Commit the changes to the database
-            }
+            Narudzba narudzba = narudzbaRepository.GetNarudzbaByID(id);
+            narudzbaRepository.DeleteNarudzba(narudzba);
+         
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                session.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+       
     }
 }

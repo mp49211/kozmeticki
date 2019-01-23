@@ -14,17 +14,21 @@ using System.Windows.Forms;
 using KozmetickiClassLibrary.Model;
 using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
-
+using KozmetickiClassLibrary.Interfaces;
 
 namespace Desktop
 {
     public partial class OsobljeForm : Form
     {
-        ISession session = NHibertnateSession.OpenSession();
+        private IRepository zaposlenikRepository;
+
+       
+       // ISession session = NHibertnateSession.OpenSession();
         public OsobljeForm()
         {
             InitializeComponent();
-            
+            this.zaposlenikRepository = new Repository();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -37,7 +41,7 @@ namespace Desktop
         {
            this.WindowState = FormWindowState.Maximized;
            
-                var zaposlenici = session.Query<Zaposlenik>().Where(a => a.Salon.IdSalon == PocetnaForm.ID).Select(x => new ZaposlenikVM()
+                var zaposlenici = zaposlenikRepository.GetZaposleniksQuery().Where(a => a.Salon.IdSalon == PocetnaForm.ID).Select(x => new ZaposlenikVM()
                 {
 
                     IdZaposlenik = x.IdZaposlenik,
@@ -61,7 +65,7 @@ namespace Desktop
 
                 }).ToList();
 
-                var listaZapUsluga = session.Query<Zaposlenikusluga>().ToList();
+                var listaZapUsluga = zaposlenikRepository.GetZaposlenikUsluga().ToList();
                 foreach (var z in zaposlenici)
                 {
                     foreach (var x in listaZapUsluga)

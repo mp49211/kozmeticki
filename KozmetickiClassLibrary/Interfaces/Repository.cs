@@ -27,6 +27,18 @@ namespace KozmetickiClassLibrary.Interfaces
         {
             return session.Get<Usluga>(id);
         }
+        public Salon GetSalonByID(int? id)
+        {
+            return session.Get<Salon>(id);
+        }
+        public Artikl GetArtiklByID(int? id)
+        {
+            return session.Get<Artikl>(id);
+        }
+        public Narudzba GetNarudzbaByID(int? id)
+        {
+            return session.Get<Narudzba>(id);
+        }
         public Grad GetGradByID(int? id)
         {
             return session.Get<Grad>(id);
@@ -47,6 +59,22 @@ namespace KozmetickiClassLibrary.Interfaces
             using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
             {
                 session.Delete(zaposlenik); 
+                transaction.Commit();   //  Commit the changes to the database
+            }
+        }
+        public void DeleteNarudzba(Narudzba narudzba)
+        {
+            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+            {
+                session.Delete(narudzba);
+                transaction.Commit();   //  Commit the changes to the database
+            }
+        }
+        public void DeleteArtiklSalon(Artiklsalon ass)
+        {
+            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+            {
+                session.Delete(ass);
                 transaction.Commit();   //  Commit the changes to the database
             }
         }
@@ -80,6 +108,14 @@ namespace KozmetickiClassLibrary.Interfaces
         {
             return session.Query<Zaposlenik>().ToList();
         }
+        public IEnumerable<Artikl> GetArtikl()
+        {
+            return session.Query<Artikl>();
+        }
+        public IEnumerable<Artiklsalon> GetArtiklSalon()
+        {
+            return session.Query<Artiklsalon>();
+        }
         public IEnumerable<Narudzba> GetNarudzba()
         {
             return session.Query<Narudzba>().ToList();
@@ -96,10 +132,23 @@ namespace KozmetickiClassLibrary.Interfaces
         {
             return session.Query<Salon>();
         }
+        public IEnumerable<Dobavljac> GetDobavljac()
+        {
+            return session.Query<Dobavljac>();
+        }
+        public IEnumerable<Salonusluga> GetSalonUsluga()
+        {
+            return session.Query<Salonusluga>();
+        }
         public IEnumerable<Smjena> GetSmjena()
         {
             return session.Query<Smjena>();
         }
+        public IEnumerable<Kategorija> GetKategorija()
+        {
+            return session.Query<Kategorija>();
+        }
+      
         public IEnumerable<Usluga> GetUsluga()
         {
             return session.Query<Usluga>();
@@ -140,6 +189,25 @@ namespace KozmetickiClassLibrary.Interfaces
                 transaction.Commit();   //  Commit the changes to the database
             }
         }
+        public void InsertNarudzba(Narudzba nar)
+        {
+
+            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+            {
+                session.Save(nar);
+                transaction.Commit();   //  Commit the changes to the database
+            }
+        }
+        public void InsertArtikl(Artikl nar)
+        {
+
+            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+            {
+                session.Save(nar);
+                transaction.Commit();   //  Commit the changes to the database
+            }
+        }
+  
         public int InsertAdresa(Adresa adresa)
         {
             var id=0;
@@ -189,6 +257,20 @@ namespace KozmetickiClassLibrary.Interfaces
                
                 transaction.Commit();   //  Commit the changes to the database
             }
+        }
+
+        void IRepository.InsertArtiklSalon(Artiklsalon art)
+        {
+            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
+            {
+                session.Save(art);
+                transaction.Commit();   //  Commit the changes to the database
+            }
+        }
+
+        public IEnumerable<Proizvodac> GetPrizvodac()
+        {
+            return session.Query<Proizvodac>();
         }
     }
 }

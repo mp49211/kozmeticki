@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using KozmetickiClassLibrary.Interfaces;
 using KozmetickiClassLibrary.Model;
 using KozmetickiClassLibrary.ViewModels;
 using NHibernate;
@@ -12,13 +13,17 @@ namespace KozmetickiSalonWeb.Controllers
 {
     public class artiklsController : Controller
     {
-        ISession session = NHibertnateSession.OpenSession();
-        // GET: artikls
+        private IRepository artiklRepository;
+
+        public artiklsController()
+        {
+            this.artiklRepository = new Repository();
+        }
         public ActionResult Index()
         {
 
             ArtikliVM artikli = new ArtikliVM();
-            foreach (var x in session.Query<Artiklsalon>().ToList())
+            foreach (var x in artiklRepository.GetArtiklSalon().ToList())
             {
                 if (x.Salon.IdSalon == AktivniSalon.IdAktivniSalon)
                 {
@@ -36,28 +41,20 @@ namespace KozmetickiSalonWeb.Controllers
             for (int i = 0; i < artikli.Arts.Count; i++)
             {
                 int id = artikli.Arts[i].IdArtikl;
-                Artiklsalon x = session.Query<Artiklsalon>().FirstOrDefault(f => (f.Salon.IdSalon == AktivniSalon.IdAktivniSalon && f.Artikl.IdArtikl == id));
+                Artiklsalon x = artiklRepository.GetArtiklSalon().FirstOrDefault(f => (f.Salon.IdSalon == AktivniSalon.IdAktivniSalon && f.Artikl.IdArtikl == id));
                 if (artikli.Kols[i] != x.Kolicina)
                 {
                     if (artikli.Kols[i] > 0)
                     {
                         x.Kolicina = artikli.Kols[i];
-                        using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                        {
-                            session.Save(x); //  Save the book in session
-                            transaction.Commit();   //  Commit the changes to the database
-                        }
+                        artiklRepository.InsertArtiklSalon(x);
                     }
                     else
                     {
-                        session.Delete(x);
+                        artiklRepository.DeleteArtiklSalon(x);
                     }
 
-                    using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                    {
-                      
-                        transaction.Commit();   //  Commit the changes to the database
-                    }
+                   
 
                 }
             }
@@ -72,7 +69,7 @@ namespace KozmetickiSalonWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artikl artikl = session.Get<Artikl>(id);
+            Artikl artikl = artiklRepository.GetArtiklByID(id);
             if (artikl == null)
             {
                 return HttpNotFound();
@@ -126,10 +123,10 @@ namespace KozmetickiSalonWeb.Controllers
         {
             ArtikliVM artikli = new ArtikliVM();
             bool postoji;
-            foreach (var x in session.Query<Artikl>().ToList())
+            foreach (var x in artiklRepository.GetArtikl().ToList())
             {
                 postoji = false;
-                foreach (var y in session.Query<Artiklsalon>())
+                foreach (var y in artiklRepository.GetArtiklSalon())
                 {
                     if (y.Artikl.IdArtikl == x.IdArtikl && y.Salon.IdSalon== AktivniSalon.IdAktivniSalon)
                     {
@@ -166,22 +163,18 @@ namespace KozmetickiSalonWeb.Controllers
                         Artiklsalon a = new Artiklsalon
                         {
                             Artikl = artikli.Arts[i],
-                            Salon = session.Get<Salon>(AktivniSalon.IdAktivniSalon),
+                            Salon = artiklRepository.GetSalonByID(AktivniSalon.IdAktivniSalon),
                             //artikl = artikli.Arts[i],
                             //salon = db.salon.Find(AktivniSalon.IdAktivniSalon),
                             Kolicina = artikli.Kols[i]
 
                         };
-                        session.Save(a);
+                        artiklRepository.InsertArtiklSalon(a);
                         System.Diagnostics.Debug.WriteLine("dodan: " + a.Artikl.IdArtikl.ToString() + " " + a.Salon.IdSalon.ToString());
                     }
                 }
 
-                using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                {
-                    
-                    transaction.Commit();   //  Commit the changes to the database
-                }
+                artiklRepository.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -196,14 +189,14 @@ namespace KozmetickiSalonWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artikl artikl = session.Get<Artikl>(id);
+            Artikl artikl = artiklRepository.GetArtiklByID(id);
             if (artikl == null)
             {
                 return HttpNotFound();
             }
-            var dobavljac = session.Query<Dobavljac>().AsEnumerable();
-            var kategorija = session.Query<Kategorija>().AsEnumerable();
-            var proizvodac= session.Query<Proizvodac>().AsEnumerable();
+            var dobavljac = artiklRepository.GetDobavljac().AsEnumerable();
+            var kategorija = artiklRepository.GetKategorija().AsEnumerable();
+            var proizvodac= artiklRepository.GetPrizvodac().AsEnumerable();
             ViewBag.idDobavljac = new SelectList(dobavljac, "iddobavljac", "naziv", artikl.Dobavljac.Iddobavljac);
             ViewBag.idKategorija = new SelectList(kategorija, "idKategorija", "nazivKategorija", artikl.Kategorija.IdKategorija);
             ViewBag.idProizvodac = new SelectList(proizvodac, "idProizvodac", "naziv", artikl.Proizvodac.IdProizvodac);
@@ -219,16 +212,12 @@ namespace KozmetickiSalonWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-                {
-                    session.Save(artikl);
-                    transaction.Commit();   //  Commit the changes to the database
-                }
+                artiklRepository.InsertArtikl(artikl);
                 return RedirectToAction("Index");
             }
-            var dobavljac = session.Query<Dobavljac>().AsEnumerable();
-            var kategorija = session.Query<Kategorija>().AsEnumerable();
-            var proizvodac = session.Query<Proizvodac>().AsEnumerable();
+            var dobavljac = artiklRepository.GetDobavljac().AsEnumerable();
+            var kategorija = artiklRepository.GetKategorija().AsEnumerable();
+            var proizvodac = artiklRepository.GetPrizvodac().AsEnumerable();
             ViewBag.idDobavljac = new SelectList(dobavljac, "iddobavljac", "naziv", artikl.Dobavljac.Iddobavljac);
             ViewBag.idKategorija = new SelectList(kategorija, "idKategorija", "nazivKategorija", artikl.Kategorija.IdKategorija);
             ViewBag.idProizvodac = new SelectList(proizvodac, "idProizvodac", "naziv", artikl.Proizvodac.IdProizvodac);
@@ -242,7 +231,7 @@ namespace KozmetickiSalonWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artikl artikl = session.Query<Artikl>().FirstOrDefault(a => a.IdArtikl == id);
+            Artikl artikl = artiklRepository.GetArtikl().FirstOrDefault(a => a.IdArtikl == id);
             if (artikl == null)
             {
                 return HttpNotFound();
@@ -255,12 +244,8 @@ namespace KozmetickiSalonWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Artiklsalon a = session.Query<Artiklsalon>().FirstOrDefault(x => x.Artikl.IdArtikl == id && x.Salon.IdSalon == AktivniSalon.IdAktivniSalon);
-            using (ITransaction transaction = session.BeginTransaction())   //  Begin a transaction
-            {
-                session.Delete(a); //  Save the book in session
-                transaction.Commit();   //  Commit the changes to the database
-            }
+            Artiklsalon a = artiklRepository.GetArtiklSalon().FirstOrDefault(x => x.Artikl.IdArtikl == id && x.Salon.IdSalon == AktivniSalon.IdAktivniSalon);
+            artiklRepository.DeleteArtiklSalon(a);
             return RedirectToAction("Index");
         }
 
@@ -268,7 +253,7 @@ namespace KozmetickiSalonWeb.Controllers
         {
             if (disposing)
             {
-                session.Dispose();
+                artiklRepository.Dispose();
             }
             base.Dispose(disposing);
         }
