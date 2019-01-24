@@ -142,8 +142,6 @@ namespace KozmetickiSalonWeb.Controllers
         }
 
         // POST: Narudzbas/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(NarudzbaVM narudzba)
@@ -158,6 +156,8 @@ namespace KozmetickiSalonWeb.Controllers
                     Trajanje = x.Trajanje,
                     Cijena = x.Cijena
                 }).FirstOrDefault(x => x.Idusluga == narudzba.IdUsluga);
+
+                //...
 
                 List<ZaposlenikVM> zaposlenici = new List<ZaposlenikVM>();
                 foreach (var z in narudzbaRepository.GetZaposleniksQuery())

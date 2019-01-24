@@ -18,10 +18,14 @@ namespace KozmetickiClassLibrary.Model {
         public virtual Salon Salon { get; set; }
         public virtual Smjena Smjena { get; set; }
         [Required(ErrorMessage = "Ime je obavezno polje.")]
+        [DataType(DataType.Text)]
         public virtual string Ime { get; set; }
         [Required(ErrorMessage = "Prezime je obavezno polje.")]
+        [DataType(DataType.Text)]
         public virtual string Prezime { get; set; }
         [Required(ErrorMessage = "OIB je obavezno polje.")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "OIB treba imati 11 znamenki.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Mogu biti samo znamenke.")]
         public virtual string Oib { get; set; }
         public virtual ICollection<Narudzba> Narudzba { get; set; }
         public virtual IList<Zaposlenikusluga> Zaposlenikusluga { get; set; }
