@@ -50,9 +50,9 @@
             // 
             this.label1.Font = new System.Drawing.Font("Gill Sans MT", 25.8F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label1.Location = new System.Drawing.Point(12, 40);
+            this.label1.Location = new System.Drawing.Point(1, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(174, 60);
+            this.label1.Size = new System.Drawing.Size(199, 60);
             this.label1.TabIndex = 0;
             this.label1.Text = "Usluge:";
             // 
