@@ -116,7 +116,7 @@ namespace KozmetickiSalonWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                DateTime dateTime = DateTime.UtcNow.Date;
+                DateTime dateTime = DateTime.Today;
                 var dob = session.Query<Dobavljac>().Select(a => a.Iddobavljac).Distinct().ToList();
 
                 foreach (var d in dob)

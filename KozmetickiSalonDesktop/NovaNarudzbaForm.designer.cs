@@ -146,7 +146,7 @@
             this.novaDate.Name = "novaDate";
             this.novaDate.Size = new System.Drawing.Size(212, 27);
             this.novaDate.TabIndex = 10;
-            this.novaDate.Value = new System.DateTime(2019, 1, 2, 21, 13, 14, 695);
+            this.novaDate.Value = System.DateTime.Now;
             this.novaDate.ValueChanged += new System.EventHandler(this.novaDate_ValueChanged);
             // 
             // novaVrijeme
